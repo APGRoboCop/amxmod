@@ -45,8 +45,6 @@
 #ifndef AMXMOD_H
 #define AMXMOD_H
 
-
-
 #include "modules.h"
 #include "CString.h"
 #include "CList.h"
@@ -64,8 +62,8 @@
 
 #include <meta_api.h>
 
-#define AUTHORS "AMX Mod Team"
-#define AMX_VERSION "2010.1"
+#define AUTHORS "AMX Mod Team and [APG]"
+#define AMX_VERSION "2021.0-APG"
 #define URL "www.amxmod.net"
 #define DATE __DATE__
 

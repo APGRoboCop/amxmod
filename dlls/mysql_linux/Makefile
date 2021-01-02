@@ -13,9 +13,9 @@ EXTRA_INCLUDEDIRS = -Iextra/include
 
 EXTRA_FLAGS = -Dstrcmpi=strcasecmp
 
-SDKTOP=../../../HLSDK
+SDKTOP=../../../hlsdk-2.3-p4
 SDKSRC=$(SDKTOP)/multiplayer
-METADIR=../../../metamod/metamod
+METADIR=../../../metamod-p/metamod
 AMXDIR=../amx
 SRCDIR=.
 
@@ -112,13 +112,13 @@ OBJ_WIN32 := $(SRCFILES:%.cpp=$(OBJDIR_WIN32)/%.o)
 OBJC_WIN32 := $(CSRCFILES:%.c=$(OBJDIR_WIN32)/%.o)
 
 # optimisation level; overridden for certain problematic files
-CCO = -O2 -fomit-frame-pointer -funroll-loops -fno-strict-aliasing -pipe
+CCO = -O2 -fomit-frame-pointer -funroll-loops -fno-strict-aliasing -pipe -mmmx -msse -msse2 -mfpmath=sse
 
 # architecture tuning by arch type
 ifeq "$(ARCH)" "amd64"
 	CCOPT_ARCH = -DHAVE_I64 -DSMALL_CELL_SIZE=64
 else
-	CCOPT_ARCH = -march=i586 $(MCPU)=i686
+	CCOPT_ARCH = -march=i686 -mtune=generic
 endif
 
 CCOPT = $(CCO) $(CCOPT_ARCH) -Wno-write-strings -fno-exceptions -fno-rtti -DNDEBUG -DJITORNOT

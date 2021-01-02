@@ -22,9 +22,9 @@ EXTRA_INCLUDEDIRS = -Iextra/include
 
 EXTRA_FLAGS = -Dstrcmpi=strcasecmp
 
-SDKTOP=../../HLSDK
+SDKTOP=../../hlsdk-2.3-p4
 SDKSRC=$(SDKTOP)/multiplayer
-METADIR=../../metamod/metamod
+METADIR=../../metamod-p/metamod
 SRCDIR=.
 
 OBJDIR_LINUX=obj.linux
@@ -136,7 +136,7 @@ ifeq "$(ARCH)" "amd64"
 	CCOPT_ARCH = -DHAVE_I64 -DSMALL_CELL_SIZE=64
 else
 	# pentium or newer
-	CCOPT_ARCH = -march=i586 $(MCPU)=i686
+	CCOPT_ARCH = -march=i686 -mtune=generic
 endif
 
 # JIT can be:
@@ -160,7 +160,7 @@ else
 endif
 
 # optimisation level; overridden for certain problematic files
-CCO = -O2 -fomit-frame-pointer -funroll-loops -fno-strict-aliasing -pipe
+CCO = -O2 -fomit-frame-pointer -funroll-loops -fno-strict-aliasing -pipe -mmmx -msse -msse2 -mfpmath=sse
 
 CCOPT = $(CCO) $(CCOPT_ARCH) -Wno-deprecated -Wno-write-strings -fno-exceptions -fno-rtti -DNDEBUG $(DOJIT) $(DOCHINESE)
 
