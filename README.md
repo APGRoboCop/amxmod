@@ -10,10 +10,12 @@ But AMX Mod is in resurrection... wait & see!
 - We Thank You:
 
 http://olo.counter-strike.pl - OLO's Home page
+
 http://amxmod.net - The AMX Mod Home page
+
 http://djeyl.net - dJeyL's Home Page
+
 A large effort was put forth to ensure the information in this document is accurate. If you find any error, please try to tell us from the site (if an email is apparent).
 
 - The AMX Mod Team
-
 - dJe781
