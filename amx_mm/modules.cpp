@@ -977,7 +977,7 @@ void MODFUNC_LogError(const char *fmt, ...) {
   char msg[1024];
   va_list arglst;
   va_start(arglst, fmt);
-  _vsnprintf(msg, sizeof(msg) - 1, fmt, arglst);
+  vsnprintf(msg, sizeof(msg) - 1, fmt, arglst);
   va_end(arglst);
   logerror(msg);
 }

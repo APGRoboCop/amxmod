@@ -63,7 +63,7 @@
 #include <meta_api.h>
 
 #define AUTHORS "AMX Mod Team and [APG]"
-#define AMX_VERSION "2021.0-APG"
+#define AMX_VERSION "2022.0-APG"
 #define URL "www.amxmod.net"
 #define DATE __DATE__
 

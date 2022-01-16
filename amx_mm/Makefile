@@ -92,11 +92,11 @@ ifeq "$(OS)" "LINUX"
 	NASM=nasm
 else	# WIN32
 	INSTALL=cp
-	CC_WIN32=gcc
-	CXX_WIN32=g++
-	LD_WINDLL= dllwrap
+	CC_WIN32=i686-w64-mingw32-gcc
+	CXX_WIN32=i686-w64-mingw32-g++
+	LD_WINDLL= i686-w64-mingw32-dllwrap
 	DEFAULT=win32
-	NASM=nasmw
+	NASM=mingw-w64-i686-nasm
 endif
 
 ifeq "$(CHINESE)" "1"
@@ -160,13 +160,13 @@ else
 endif
 
 # optimisation level; overridden for certain problematic files
-CCO = -O2 -fomit-frame-pointer -funroll-loops -fno-strict-aliasing -pipe -mmmx -msse -msse2 -mfpmath=sse
+CCO = -O2 -fomit-frame-pointer -fno-strict-aliasing -pipe -mmmx -msse -msse2 -mfpmath=sse
 
-CCOPT = $(CCO) $(CCOPT_ARCH) -Wno-deprecated -Wno-write-strings -fno-exceptions -fno-rtti -DNDEBUG $(DOJIT) $(DOCHINESE)
+CCOPT = $(CCO) $(CCOPT_ARCH) -fno-exceptions -fno-rtti -DNDEBUG $(DOJIT) $(DOCHINESE)
 
 INCLUDEDIRS=-I../curl/include -I$(SRCDIR) -I$(METADIR) -I$(SDKSRC)/engine -I$(SDKSRC)/common -I$(SDKSRC)/pm_shared -I$(SDKSRC)/dlls -I$(SDKSRC) $(EXTRA_INCLUDEDIRS)
 ODEF=-DOPT_TYPE=\"optimized\"
-CFLAGS=-Wall -Wno-unknown-pragmas
+CFLAGS=-Wall -Wno-unknown-pragmas -Wno-deprecated -Wno-write-strings -Wno-attributes
 CFLAGS:=$(CCOPT) $(CFLAGS) $(ODEF) $(EXTRA_FLAGS)
 
 DO_CC_LINUX=$(CC_LINUX) $(CFLAGS) -fPIC $(INCLUDEDIRS) -DLINUX -o $@ -c $<
@@ -177,7 +177,7 @@ DO_CC_WIN32=$(CC_WIN32) $(CFLAGS) $(INCLUDEDIRS) -DWIN32 -D_WIN32 -o $@ -c $<
 DO_CXX_WIN32=$(CXX_WIN32) $(CFLAGS) $(INCLUDEDIRS) -DWIN32 -D_WIN32 -o $@ -c $<
 DO_ASM_WIN32=$(NASM) -O1 -o $@ -f win32 $<
 
-LINK_LINUX=$(CC_LINUX) $(CFLAGS) -shared -ldl -lm -static-libgcc $(OBJ_LINUX) $(OBJC_LINUX) $(OBJA_LINUX) $(EXTRA_LIBDIRS_LINUX) $(EXTRA_LIBS_LINUX) -s -o $@ 
+LINK_LINUX=$(CC_LINUX) $(CFLAGS) -shared -ldl -lm -static-libgcc -static-libstdc++ $(OBJ_LINUX) $(OBJC_LINUX) $(OBJA_LINUX) $(EXTRA_LIBDIRS_LINUX) $(EXTRA_LIBS_LINUX) -s -o $@ 
 LINK_WIN32=$(CC_WIN32) -mdll -Xlinker --add-stdcall-alias $(OBJ_WIN32) $(OBJC_WIN32) $(OBJA_WIN32) $(EXTRA_LIBDIRS_WIN32) $(EXTRA_LIBS_WIN32) -s -o $@
 
 $(OBJDIR_LINUX)/%.o: $(SRCDIR)/%.c
