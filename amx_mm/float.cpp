@@ -6,8 +6,8 @@
  *
  */
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <extdll.h>
 #include <meta_api.h>
 #include "amxmod.h"
@@ -99,5 +99,5 @@ AMX_NATIVE_INFO float_Natives[] = {
   { "floatfract",    _floatfract },
   { "floatround",    _floatround },
   { "floatcmp",      _floatcmp },
-  { NULL,            NULL }
+  {nullptr, nullptr}
 };

@@ -33,7 +33,7 @@
 
 #include <extdll.h>
 #include <meta_api.h>
-#include <time.h>
+#include <ctime>
 #include "amxmod.h"
 #include "CFile.h"
 
@@ -399,7 +399,7 @@ CTranslator::CDictionary * CTranslator::findDictionary(const char *name) {
     }
     d = d->next;
   }
-  return NULL;
+  return nullptr;
 }
 
 CTranslator::CDictionary::~CDictionary() {
@@ -407,11 +407,11 @@ CTranslator::CDictionary::~CDictionary() {
   if(languages) {
     for(i = 0; i < lCounter; ++i) {
       delete [] languages[i].coll;
-      languages[i].coll = NULL;
+      languages[i].coll = nullptr;
     }
     delete [] languages;
     delete [] lSupport;
-    languages = NULL;
+    languages = nullptr;
   }
 }
 
@@ -425,7 +425,7 @@ void CTranslator::clear() {
   for(i = 0; i < 255; ++i) {
     if(lang[i]) {
       delete lang[i];
-      lang[i] = NULL;
+      lang[i] = nullptr;
     }
   }
   memset(&lang, 0, sizeof(lang));
@@ -625,7 +625,7 @@ const char *CTranslator::getLang(int i) {
   if(i >= 0 && i < 255 && lang[i] && strcmp("", lang[i]->str())) {
     return lang[i]->str();
   }
-  return NULL;
+  return nullptr;
 }
 
 int CTranslator::getLangs() {
@@ -637,7 +637,7 @@ int CTranslator::getLangs() {
 void CTranslator::CDictionary::addTempString(const char *str) {
   CTempString *s;
   CTempString *n;
-  CTempString *p = NULL;
+  CTempString *p = nullptr;
 #ifdef LOOKUP_HASH
   unsigned long h = getHash(str);
 #else

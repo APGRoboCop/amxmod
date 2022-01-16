@@ -36,7 +36,7 @@
 
 #define MAX_LOGARGS 12
 
-#include <stdarg.h>
+#include <cstdarg>
 
 // *****************************************************
 // class LogEventsMngr
@@ -105,7 +105,7 @@ public:
 		LogCond *filters;
 		LogEventsMngr* parent;
 		CLogEvent *next;
-		CLogEvent(CPluginMngr::CPlugin *p,int f, LogEventsMngr* ppp) : plugin(p), func(f), filters(0), parent(ppp), next(0) { }
+		CLogEvent(CPluginMngr::CPlugin *p,int f, LogEventsMngr* ppp) : plugin(p), func(f), filters(nullptr), parent(ppp), next(nullptr) { }
 		~CLogEvent();
 
 	public:
@@ -152,6 +152,6 @@ public:
 		operator bool () const { return a ? true : false; }
 	};
 	inline iterator begin() { return iterator(getValidLogEvent(logevents[logArgc]), this); }
-	inline iterator end() { return iterator(0, this); }
+	inline iterator end() { return iterator(nullptr, this); }
 };
 #endif

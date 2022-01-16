@@ -31,7 +31,7 @@
  * For Linux, we must overrule these settings with those defined in glibc.
  */
 #if !defined __BYTE_ORDER
-  #include <stdlib.h>
+  #include <cstdlib>
 #endif
 
 #if defined __OpenBSD__ || defined __FreeBSD__

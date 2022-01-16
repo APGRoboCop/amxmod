@@ -44,7 +44,7 @@
 
 #include <extdll.h>
 #include <meta_api.h>
-#include <time.h>
+#include <ctime>
 #include <dirent.h>
 #include "amxmod.h"
 #include "optimizer.h"
@@ -134,11 +134,11 @@ cvar_t init_amx_langdebug={"amx_langdebug", "", FCVAR_SPONLY};
 cvar_t init_amx_log_to_hl_logs={"amx_log_to_hl_logs", "0", FCVAR_SPONLY};
 //cvar_t* amx_version = NULL;
 //cvar_t* amx_modules = NULL;
-cvar_t* cvar_amx_debug = NULL;
-cvar_t* cvar_amx_langdebug = NULL;
-cvar_t* cvar_amx_log_to_hl_logs = NULL;
-cvar_t* hostname = NULL;
-cvar_t* mp_timelimit = NULL;
+cvar_t* cvar_amx_debug = nullptr;
+cvar_t* cvar_amx_langdebug = nullptr;
+cvar_t* cvar_amx_log_to_hl_logs = nullptr;
+cvar_t* hostname = nullptr;
+cvar_t* mp_timelimit = nullptr;
 
 
 // Precache stuff from force consistency calls
@@ -146,7 +146,7 @@ cvar_t* mp_timelimit = NULL;
 int PrecacheModel(char *s) {
   if(!g_forcedmodels) {
     g_forcedmodels = true;
-    g_pengfuncsTable->pfnPrecacheModel = NULL;
+    g_pengfuncsTable->pfnPrecacheModel = nullptr;
     for(CList<ForceObject>::iterator a = g_forcemodels.begin(); a; ++a) {
       PRECACHE_MODEL((char*)(*a).getFilename());
       ENGINE_FORCE_UNMODIFIED((*a).getForceType(), (*a).getMin(), (*a).getMax(), (*a).getFilename());
@@ -158,7 +158,7 @@ int PrecacheModel(char *s) {
 int PrecacheSound(char *s) {
   if(!g_forcedsounds) {
     g_forcedsounds = true;
-    g_pengfuncsTable->pfnPrecacheSound = NULL;
+    g_pengfuncsTable->pfnPrecacheSound = nullptr;
     for(CList<ForceObject>::iterator a = g_forcesounds.begin(); a; ++a) {
       PRECACHE_SOUND((char*)(*a).getFilename());
       ENGINE_FORCE_UNMODIFIED((*a).getForceType(), (*a).getMin(), (*a).getMax(), (*a).getFilename());
@@ -216,7 +216,7 @@ int InconsistentFile(const edict_t *player, const char *filename, char *disconne
 
 const char* get_localinfo(const char* name, const char* def) {
   const char* b = LOCALINFO((char*)name);
-  if(b == 0 || *b == 0) {
+  if(b == nullptr || *b == 0) {
     char val[256];
     if(!strncmp(def, "$basedir", 8)) {
       snprintf(val, 255, "%s%s", get_localinfo("amx_basedir", "addons/amx"), def + 8);
@@ -287,7 +287,7 @@ void loadMapPluginsIni() {
   FILE* fp;
   
   fp = fopen(file, "rt");
-  if(fp != NULL) {
+  if(fp != nullptr) {
     char line[128], iniFile[64], mapName[64];
     while(!feof(fp)) {
       line[0] = '\0';
@@ -330,7 +330,7 @@ void loadMapPluginsIni() {
   g_plugins_file[0] = '\0';
   snprintf(g_plugins_file, sizeof(g_plugins_file)-1, "%s%s.ini", path, STRING(gpGlobals->mapname));
   fp = fopen(g_plugins_file, "rt");
-  if(fp != NULL) {
+  if(fp != nullptr) {
     fclose(fp);
     g_plugins.loadPluginsFromFile(g_plugins_file);
   }
@@ -371,26 +371,26 @@ int Spawn(edict_t *pent) {
     RETURN_META_VALUE(MRES_IGNORED, 0);
   }
 
-  g_pengfuncsTable->pfnPrecacheModel = NULL;
-  g_pengfuncsTable->pfnPrecacheSound = NULL;
+  g_pengfuncsTable->pfnPrecacheModel = nullptr;
+  g_pengfuncsTable->pfnPrecacheSound = nullptr;
   //g_pengfuncsTable->pfnCmd_Args = NULL;
   //g_pengfuncsTable->pfnCmd_Argv = NULL;
   //g_pengfuncsTable->pfnCmd_Argc = NULL;
 
-  g_pengfuncsTable_Post->pfnAlertMessage = NULL;
-  g_pFunctionTable->pfnInconsistentFile = NULL;
-  g_pengfuncsTable->pfnChangeLevel = NULL;
+  g_pengfuncsTable_Post->pfnAlertMessage = nullptr;
+  g_pFunctionTable->pfnInconsistentFile = nullptr;
+  g_pengfuncsTable->pfnChangeLevel = nullptr;
 
-  g_pengfuncsTable->pfnWriteByte = NULL;
-  g_pengfuncsTable->pfnWriteChar = NULL;
-  g_pengfuncsTable->pfnWriteShort = NULL;
-  g_pengfuncsTable->pfnWriteLong = NULL;
-  g_pengfuncsTable->pfnWriteAngle = NULL;
-  g_pengfuncsTable->pfnWriteCoord = NULL;
-  g_pengfuncsTable->pfnWriteString = NULL;
-  g_pengfuncsTable->pfnWriteEntity = NULL;
-  g_pengfuncsTable->pfnMessageEnd = NULL;
-  g_pengfuncsTable_Post->pfnMessageEnd = NULL;
+  g_pengfuncsTable->pfnWriteByte = nullptr;
+  g_pengfuncsTable->pfnWriteChar = nullptr;
+  g_pengfuncsTable->pfnWriteShort = nullptr;
+  g_pengfuncsTable->pfnWriteLong = nullptr;
+  g_pengfuncsTable->pfnWriteAngle = nullptr;
+  g_pengfuncsTable->pfnWriteCoord = nullptr;
+  g_pengfuncsTable->pfnWriteString = nullptr;
+  g_pengfuncsTable->pfnWriteEntity = nullptr;
+  g_pengfuncsTable->pfnMessageEnd = nullptr;
+  g_pengfuncsTable_Post->pfnMessageEnd = nullptr;
 
   g_activated = false;
   g_initialized = true;
@@ -544,20 +544,20 @@ struct sUserMsg {
   { "TextMsg", &gmsgTextMsg, Client_TextMsg, false, false },
   { "TeamInfo", &gmsgTeamInfo, Client_TeamInfo, false, false },
   { "WeaponList", &gmsgWeaponList, Client_WeaponList, false, false },
-  { "MOTD", &gmsgMOTD, 0, false, false },
-  { "ServerName", &gmsgServerName, 0, false, false },
-  { "Health", &gmsgHealth, 0, false, false },
-  { "Battery", &gmsgBattery, 0, false, false },
+  { "MOTD", &gmsgMOTD, nullptr, false, false },
+  { "ServerName", &gmsgServerName, nullptr, false, false },
+  { "Health", &gmsgHealth, nullptr, false, false },
+  { "Battery", &gmsgBattery, nullptr, false, false },
   { "ShowMenu", &gmsgShowMenu, Client_ShowMenu, false, false },
-  { "SendAudio", &gmsgSendAudio, 0, false, false },
+  { "SendAudio", &gmsgSendAudio, nullptr, false, false },
   { "AmmoX", &gmsgAmmoX, Client_AmmoX, false, false },
   { "ScoreInfo", &gmsgScoreInfo, Client_ScoreInfo, false, false },
   { "VGUIMenu", &gmsgVGUIMenu, Client_VGUIMenu, false, false },
   { "AmmoPickup", &gmsgAmmoPickup, Client_AmmoPickup, false, false },
-  { "WeapPickup", &gmsgWeapPickup, 0, false, false },
-  { "ResetHUD", &gmsgResetHUD, 0, false, false },
-  { "RoundTime", &gmsgRoundTime, 0, false, false },
-  { 0, 0, 0, false, false }
+  { "WeapPickup", &gmsgWeapPickup, nullptr, false, false },
+  { "ResetHUD", &gmsgResetHUD, nullptr, false, false },
+  { "RoundTime", &gmsgRoundTime, nullptr, false, false },
+  { nullptr, nullptr, nullptr, false, false }
 };
 
 int RegUserMsg_Post(const char *pszName, int iSize) {
@@ -588,7 +588,7 @@ plugin_init forward function from plugins
 void ServerActivate(edict_t *pEdictList, int edictCount, int clientMax) {
   int id;
   for(int i = 0; g_user_msg[i].name; ++i) {
-    if((*g_user_msg[i].id == 0) && (id = GET_USER_MSG_ID(PLID, g_user_msg[ i ].name, NULL)) != 0) {
+    if((*g_user_msg[i].id == 0) && (id = GET_USER_MSG_ID(PLID, g_user_msg[ i ].name, nullptr)) != 0) {
       *g_user_msg[i].id = id;
 
       if(!g_user_msg[i].cstrike || g_bmod_cstrike) {
@@ -645,26 +645,26 @@ void ServerDeactivate() {
   g_players_num = 0;
   g_forwards.executeForwards(FF_PluginEnd);
 
-  g_pengfuncsTable->pfnPrecacheModel = NULL;
-  g_pengfuncsTable->pfnPrecacheSound = NULL;
+  g_pengfuncsTable->pfnPrecacheModel = nullptr;
+  g_pengfuncsTable->pfnPrecacheSound = nullptr;
   //g_pengfuncsTable->pfnCmd_Args = NULL;
   //g_pengfuncsTable->pfnCmd_Argv = NULL;
   //g_pengfuncsTable->pfnCmd_Argc = NULL;
 
-  g_pengfuncsTable_Post->pfnAlertMessage = NULL;
-  g_pFunctionTable->pfnInconsistentFile = NULL;
-  g_pengfuncsTable->pfnChangeLevel = NULL;
+  g_pengfuncsTable_Post->pfnAlertMessage = nullptr;
+  g_pFunctionTable->pfnInconsistentFile = nullptr;
+  g_pengfuncsTable->pfnChangeLevel = nullptr;
 
-  g_pengfuncsTable->pfnWriteByte = NULL;
-  g_pengfuncsTable->pfnWriteChar = NULL;
-  g_pengfuncsTable->pfnWriteShort = NULL;
-  g_pengfuncsTable->pfnWriteLong = NULL;
-  g_pengfuncsTable->pfnWriteAngle = NULL;
-  g_pengfuncsTable->pfnWriteCoord = NULL;
-  g_pengfuncsTable->pfnWriteString = NULL;
-  g_pengfuncsTable->pfnWriteEntity = NULL;
-  g_pengfuncsTable->pfnMessageEnd = NULL;
-  g_pengfuncsTable_Post->pfnMessageEnd = NULL;
+  g_pengfuncsTable->pfnWriteByte = nullptr;
+  g_pengfuncsTable->pfnWriteChar = nullptr;
+  g_pengfuncsTable->pfnWriteShort = nullptr;
+  g_pengfuncsTable->pfnWriteLong = nullptr;
+  g_pengfuncsTable->pfnWriteAngle = nullptr;
+  g_pengfuncsTable->pfnWriteCoord = nullptr;
+  g_pengfuncsTable->pfnWriteString = nullptr;
+  g_pengfuncsTable->pfnWriteEntity = nullptr;
+  g_pengfuncsTable->pfnMessageEnd = nullptr;
+  g_pengfuncsTable_Post->pfnMessageEnd = nullptr;
 
   RETURN_META(MRES_IGNORED);
 }
@@ -694,7 +694,7 @@ void ServerDeactivate_Post() {
   g_xvars.clear();
   g_plugins.clear();
   g_translator.clear();
-  g_dictionary = NULL;
+  g_dictionary = nullptr;
 
   g_initialized = false;
 
@@ -883,7 +883,7 @@ void ClientCommand(edict_t *pEntity) {
   RETURN_META(result);
 }
 
-void StartFrame_Post(void) {
+void StartFrame_Post() {
   if(g_auth_time < gpGlobals->time) {
     g_auth_time = gpGlobals->time + 0.7f;
     CList<CPlayer*>::iterator a = g_auth.begin();
@@ -891,7 +891,7 @@ void StartFrame_Post(void) {
     while(a) {
       const char* auth = GETPLAYERAUTHID((*a)->pEdict);
 
-      if((auth == 0) || (*auth == 0)) {
+      if((auth == nullptr) || (*auth == 0)) {
         a.remove();
         continue;
       }
@@ -940,14 +940,14 @@ void StartFrame_Post(void) {
         else {
           copy_amxmemory(phys_addr, task.getParam(), task.getParamLen());
 
-          if((err = amx_Exec(plugin->getAMX(), NULL, task.getFunction(), 2, amx_addr, task.getTaskId())) != AMX_ERR_NONE) {
+          if((err = amx_Exec(plugin->getAMX(), nullptr, task.getFunction(), 2, amx_addr, task.getTaskId())) != AMX_ERR_NONE) {
             amx_logerror(plugin->getAMX(), err, "");
           }
           amx_Release(plugin->getAMX(), amx_addr);
         }
       }
       else { // call without arguments
-        if((err = amx_Exec(plugin->getAMX(), NULL, task.getFunction(), 1, task.getTaskId())) != AMX_ERR_NONE) {
+        if((err = amx_Exec(plugin->getAMX(), nullptr, task.getFunction(), 1, task.getTaskId())) != AMX_ERR_NONE) {
           amx_logerror(plugin->getAMX(), err, "");
         }
       }
@@ -976,7 +976,7 @@ void MessageBegin(int msg_dest, int msg_type, const float *pOrigin, edict_t *ed)
   }
   else {
     mPlayerIndex = 0;
-    mPlayer = 0;
+    mPlayer = nullptr;
   }
   if(msg_type < 0 || msg_type >= MAX_REG_MSGS) {
     msg_type = 0;
@@ -1102,43 +1102,43 @@ void WriteString(const char *sz) {
   RETURN_META(result);
 }
 
-void MessageEnd(void) {
+void MessageEnd() {
   if(g_msgBlock) {
     g_msgBlock = false;
   }
   else if(g_events.isInMessageHook()) {
     g_events.executeMessageHooks();
   }
-  g_pengfuncsTable->pfnWriteByte = NULL;
-  g_pengfuncsTable->pfnWriteChar = NULL;
-  g_pengfuncsTable->pfnWriteShort = NULL;
-  g_pengfuncsTable->pfnWriteLong = NULL;
-  g_pengfuncsTable->pfnWriteEntity = NULL;
-  g_pengfuncsTable->pfnWriteAngle = NULL;
-  g_pengfuncsTable->pfnWriteCoord = NULL;
-  g_pengfuncsTable->pfnWriteString = NULL;
-  g_pengfuncsTable->pfnMessageEnd = NULL;
+  g_pengfuncsTable->pfnWriteByte = nullptr;
+  g_pengfuncsTable->pfnWriteChar = nullptr;
+  g_pengfuncsTable->pfnWriteShort = nullptr;
+  g_pengfuncsTable->pfnWriteLong = nullptr;
+  g_pengfuncsTable->pfnWriteEntity = nullptr;
+  g_pengfuncsTable->pfnWriteAngle = nullptr;
+  g_pengfuncsTable->pfnWriteCoord = nullptr;
+  g_pengfuncsTable->pfnWriteString = nullptr;
+  g_pengfuncsTable->pfnMessageEnd = nullptr;
   RETURN_META(MRES_SUPERCEDE);
 }
 
-void MessageEnd_Post(void) {
+void MessageEnd_Post() {
   if(g_eventFound) g_events.executeEvents();
   if(endfunction) {
-    (*endfunction)(NULL);
+    (*endfunction)(nullptr);
   }
-  g_pengfuncsTable->pfnWriteByte = NULL;
-  g_pengfuncsTable->pfnWriteChar = NULL;
-  g_pengfuncsTable->pfnWriteShort = NULL;
-  g_pengfuncsTable->pfnWriteLong = NULL;
-  g_pengfuncsTable->pfnWriteEntity = NULL;
-  g_pengfuncsTable->pfnWriteAngle = NULL;
-  g_pengfuncsTable->pfnWriteCoord = NULL;
-  g_pengfuncsTable->pfnWriteString = NULL;
-  g_pengfuncsTable_Post->pfnMessageEnd = NULL;
+  g_pengfuncsTable->pfnWriteByte = nullptr;
+  g_pengfuncsTable->pfnWriteChar = nullptr;
+  g_pengfuncsTable->pfnWriteShort = nullptr;
+  g_pengfuncsTable->pfnWriteLong = nullptr;
+  g_pengfuncsTable->pfnWriteEntity = nullptr;
+  g_pengfuncsTable->pfnWriteAngle = nullptr;
+  g_pengfuncsTable->pfnWriteCoord = nullptr;
+  g_pengfuncsTable->pfnWriteString = nullptr;
+  g_pengfuncsTable_Post->pfnMessageEnd = nullptr;
   RETURN_META(MRES_IGNORED);
 }
 
-const char *Cmd_Args(void) {
+const char *Cmd_Args() {
   if(g_fakecmd.fake) {
     RETURN_META_VALUE(MRES_SUPERCEDE, (g_fakecmd.argc > 1) ? g_fakecmd.args : NULL);
   }
@@ -1152,7 +1152,7 @@ const char *Cmd_Argv(int argc) {
   RETURN_META_VALUE(MRES_IGNORED, NULL);
 }
 
-int Cmd_Argc(void) {
+int Cmd_Argc() {
   if(g_fakecmd.fake) {
     RETURN_META_VALUE(MRES_SUPERCEDE, g_fakecmd.argc);
   }
@@ -1348,7 +1348,7 @@ C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, m
     g_pluginsloaded = false;
   }
 
-  GET_HOOK_TABLES(PLID, &g_pEngTable, NULL, NULL); // By AMXMODX Dev Team
+  GET_HOOK_TABLES(PLID, &g_pEngTable, nullptr, nullptr); // By AMXMODX Dev Team
 
   return(TRUE);
 }
@@ -1383,7 +1383,7 @@ C_DLLEXPORT int Meta_Detach(PLUG_LOADTIME now, PL_UNLOAD_REASON reason) {
 C_DLLEXPORT void WINAPI GiveFnptrsToDll(enginefuncs_t* pengfuncsFromEngine, globalvars_t *pGlobals) {
   memcpy(&g_engfuncs, pengfuncsFromEngine, sizeof(enginefuncs_t));
   gpGlobals = pGlobals;
-  g_dictionary = NULL;
+  g_dictionary = nullptr;
 }
 
 C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS *pFunctionTable, int *interfaceVersion) {

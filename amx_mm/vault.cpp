@@ -76,5 +76,5 @@ AMX_NATIVE_INFO vault_Natives[] = {
   { "remove_vaultdata", remove_vaultdata },
   { "delete_vaultdata", remove_vaultdata },
   { "vaultdata_exists", vaultdata_exists },
-  { NULL, NULL }
+  {nullptr, nullptr}
 };

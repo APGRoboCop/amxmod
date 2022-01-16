@@ -154,7 +154,7 @@ public:
 	ClEvent* registerEvent(CPluginMngr::CPlugin* p, int f, int flags, int pos);
 	ClMsgHook* registerMessageHook(CPluginMngr::CPlugin* p, int f, int pos);
 	int unregisterMessageHook(CPluginMngr::CPlugin* p, int f, int pos);
-	int parserInit(int msg_type, float* timer, CPlayer* target = 0, int index = 0, int msg_dest = 0, const float* origin = NULL);
+	int parserInit(int msg_type, float* timer, CPlayer* target = nullptr, int index = 0, int msg_dest = 0, const float* origin = nullptr);
 	void parseValue(int iValue, MsgArgType argType);
 	void parseValue(float fValue, MsgArgType argType);
 	void parseValue(const char *sz);
@@ -168,8 +168,8 @@ public:
 	int setArg(int a, float value);
 	int setArg(int a, const char* str);
 	
-	void clearEvents(void);
-	void clearMessageHooks(void);
+	void clearEvents();
+	void clearMessageHooks();
 	static int getEventId(const char* msg);
 	int getCurrentMsgType();
 	int getArgType(int a);

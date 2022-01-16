@@ -130,7 +130,7 @@ void amx_command() {
       const char* sPluginName;
 			while(a) {
 		    sPluginName = (*a).getPluginName();
-		    if(stristr(sPluginName, sPlugin) != NULL) {
+		    if(stristr(sPluginName, sPlugin) != nullptr) {
           print_srvconsole(" [%3d] %-24.23s %-24.23s %-16.15s\n", ++amount,
             (*a).getName(), CVAR_GET_STRING((*a).getName()), sPluginName);
         }
@@ -165,7 +165,7 @@ void amx_command() {
       const char* sPluginName;
       while(a) {
         sPluginName = (*a).getPlugin()->getName();
-        if(stristr(sPluginName, sPlugin) != NULL) {
+        if(stristr(sPluginName, sPlugin) != nullptr) {
     			UTIL_GetFlags(access, (*a).getFlags());
     			print_srvconsole(" [%3d] %-24.23s %-16.15s %-8.7s %-16.15s %s\n",
     				++amount, (*a).getCmdLine(), access, (*a).getCmdType(), sPluginName, (*a).getCmdInfo());

@@ -77,7 +77,7 @@ void AddString(U **buf_p, size_t &maxlen, const cell *string, int width, int pre
 
   buf = *buf_p;
 
-  if (string == NULL)
+  if (string == nullptr)
   {
     string = nlstr;
     prec = -1;
@@ -661,15 +661,15 @@ done:
 void __WHOA_DONT_CALL_ME_PLZ_K_lol_o_O()
 {
   //acsprintf
-  atcprintf((cell *)NULL, 0, (const char *)NULL, NULL, NULL, NULL);
+  atcprintf((cell *)nullptr, 0, (const char *)nullptr, nullptr, nullptr, nullptr);
   //accprintf
-  atcprintf((cell *)NULL, 0, (cell *)NULL, NULL, NULL, NULL);
+  atcprintf((cell *)nullptr, 0, (cell *)nullptr, nullptr, nullptr, nullptr);
   //ascprintf
-  atcprintf((char *)NULL, 0, (cell *)NULL, NULL, NULL, NULL);
+  atcprintf((char *)nullptr, 0, (cell *)nullptr, nullptr, nullptr, nullptr);
 
-  atcprintf((char *)NULL, 0, (char *)NULL, NULL, NULL, NULL);
+  atcprintf((char *)nullptr, 0, (char *)nullptr, nullptr, nullptr, nullptr);
   
   // By AMX Mod Team
-  atcprintf((char *)NULL, 0, (cell *)NULL, NULL, NULL);
-  atcprintf((char *)NULL, 0, (char *)NULL, NULL, NULL);
+  atcprintf((char *)nullptr, 0, (cell *)nullptr, nullptr, nullptr);
+  atcprintf((char *)nullptr, 0, (char *)nullptr, nullptr, nullptr);
 }

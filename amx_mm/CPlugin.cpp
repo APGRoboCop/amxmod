@@ -33,7 +33,7 @@
  
 #include <extdll.h>
 #include <meta_api.h>
-#include <time.h>
+#include <ctime>
 #include "amxmod.h"
 #include "CPlugin.h"
 #include "CForward.h"
@@ -56,7 +56,7 @@ CPluginMngr::CPlugin* CPluginMngr::loadPlugin(const char* path, const char* name
 	char string[256];
   snprintf(string, 255, "%s", error);
 	(*a)->setErrorMessage(string);
-	return *error ? 0 : *a;
+	return *error ? nullptr : *a;
 }
 
 void CPluginMngr::unloadPlugin(CPlugin** a) {
@@ -158,11 +158,11 @@ CPluginMngr::CPlugin* CPluginMngr::findPlugin(int index) {
 	
 CPluginMngr::CPlugin* CPluginMngr::findPlugin(const char* name) {
 	if(!name) {
-    return 0;
+    return nullptr;
   }
 	int len = strlen(name);
 	if(!len) {
-    return 0;
+    return nullptr;
   }
 	CPlugin*a = head;
 	while(a && strncmp(a->name.str(), name, len)) {
@@ -188,7 +188,7 @@ const char* CPluginMngr::CPlugin::getStatus() const {
 }
 
 #if !defined JITORNOT
-CPluginMngr::CPlugin::CPlugin(int i, const char* p, const char* n, char* e) : name(n), title(n), dictionary(0) {
+CPluginMngr::CPlugin::CPlugin(int i, const char* p, const char* n, char* e) : name(n), title(n), dictionary(nullptr) {
 #else
 CPluginMngr::CPlugin::CPlugin(int i, const char* p, const char* n, char* e, int j) : name(n), title(n), dictionary(0) {
 #endif
@@ -197,7 +197,7 @@ CPluginMngr::CPlugin::CPlugin(int i, const char* p, const char* n, char* e, int 
 	author.set(unk);
 	version.set(unk);
 	char* path = build_pathname("%s/%s", p, n);
-	code = 0;
+	code = nullptr;
 	#if !defined JITORNOT
 	int err = load_amxscript(&amx, &code, path, e, 0);
 	#else
@@ -209,7 +209,7 @@ CPluginMngr::CPlugin::CPlugin(int i, const char* p, const char* n, char* e, int 
 	else status = ps_bad_load;
 	amx.userdata[3] = this;
 	paused_fun = 0;
-	next = 0;
+	next = nullptr;
 	useML = false;
 	id = i;
 }

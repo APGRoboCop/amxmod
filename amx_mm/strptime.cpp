@@ -7,9 +7,9 @@
 
  *-----------------------------------------------------------------------*/
 //#include "config.h"
-#include <time.h>
-#include <ctype.h>
-#include <string.h>
+#include <ctime>
+#include <cctype>
+#include <cstring>
 
 #ifdef LINUX
 #define strnicmp strncasecmp
@@ -342,7 +342,7 @@ char *strptime(const char *buf, const char *fmt, struct tm *tm, short addthem) {
   ti.qV = -1; /* week in year mode: 0=U, 1=W, 2=V */
 
   if(0 > time_int(&ti, (const unsigned char **)&buf, fmt, addthem)) {
-    buf = NULL;
+    buf = nullptr;
   }
   if(0 <= ti.qS) {
     (*defoper)(&tm->tm_sec, ti.qS);

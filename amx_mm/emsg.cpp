@@ -277,7 +277,7 @@ void Client_DamageEnd(void* mValue) {
 	CPlayer* dead = mPlayer;
 
 	if(dead && dead->death_killer) {
-		g_events.parserInit(CS_DEATHMSG, &gpGlobals->time, mPlayer = 0, mPlayerIndex = 0, 0, NULL);
+		g_events.parserInit(CS_DEATHMSG, &gpGlobals->time, mPlayer = nullptr, mPlayerIndex = 0, 0, nullptr);
 		g_events.parseValue(dead->death_killer, MSG_ARG_SHORT);
 		g_events.parseValue(dead->index, MSG_ARG_SHORT);
 		g_events.parseValue(dead->death_headshot, MSG_ARG_BYTE);
@@ -298,11 +298,11 @@ void Client_DeathMsg(void* mValue) {
 	switch(mState++) {
     case 0:
       killer_id = *(int*)mValue;
-      killer = (killer_id > 0 && killer_id < 33) ? GET_PLAYER_POINTER_I(killer_id) : 0;
+      killer = (killer_id > 0 && killer_id < 33) ? GET_PLAYER_POINTER_I(killer_id) : nullptr;
       break;
     case 1:
       victim_id = *(int*)mValue;
-      victim = (victim_id > 0 && victim_id < 33) ? GET_PLAYER_POINTER_I(victim_id) : 0;
+      victim = (victim_id > 0 && victim_id < 33) ? GET_PLAYER_POINTER_I(victim_id) : nullptr;
       break;
     case 2:	
       hs = *(int*)mValue;

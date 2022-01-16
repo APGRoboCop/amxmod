@@ -32,7 +32,7 @@
  */
 
 #include "CString.h"
-#include <stdio.h>
+#include <cstdio>
 
 // *****************************************************
 // class File

@@ -44,7 +44,7 @@
 
 #include <extdll.h>
 #include <meta_api.h>
-#include <time.h>
+#include <ctime>
 #include "amxmod.h"
 
 #define ML() (g_plugins.findPluginFast(amx)->isML())
@@ -254,7 +254,7 @@ NATIVE(show_motd) {
 
   char* szBody = get_amxstring(amx, params[2], 1, ilen);
   int iFile = 0;
-  char* sToShow = NULL;// = szBody;
+  char* sToShow = nullptr;// = szBody;
   if(ilen < 128) sToShow = (char*)LOAD_FILE_FOR_ME(szBody, &iFile);
 
   if(!iFile) sToShow = szBody;
@@ -512,7 +512,7 @@ NATIVE(get_user_userid) {
 /* 3 param */
 NATIVE(get_user_authid) {
   int index = params[1];
-  const char* authid = 0;
+  const char* authid = nullptr;
   if(index > 0 && index <= gpGlobals->maxClients) authid = GETPLAYERAUTHID(g_players[index].pEdict);
 
   return set_amxstring(amx, params[2], authid ? authid : "", params[3]);
@@ -581,7 +581,7 @@ NATIVE(get_user_origin) {
 
     if(mode > 1) {
       Vector v_forward;
-      ANGLEVECTORS(edict->v.v_angle, v_forward, NULL, NULL);
+      ANGLEVECTORS(edict->v.v_angle, v_forward, nullptr, nullptr);
       TraceResult trEnd;
       Vector v_dest = pos + v_forward * 9999;
       TRACE_LINE(pos, v_dest, 0, edict, &trEnd);
@@ -602,7 +602,7 @@ NATIVE(get_user_ip) {
   strcpy(szIp,(index < 1 || index > gpGlobals->maxClients) ?
     CVAR_GET_STRING("net_address") : g_players[index].ip.str());
 
-  if(params[4] && (ptr = strstr(szIp, ":")) != 0) *ptr = '\0';
+  if(params[4] && (ptr = strstr(szIp, ":")) != nullptr) *ptr = '\0';
 
   return set_amxstring(amx, params[2], szIp, params[3]);
 }
@@ -612,7 +612,7 @@ NATIVE(get_user_attacker) {
   int index = params[1];
   if(is_player(index, 1, amx)) {
     CPlayer* pPlayer = GET_PLAYER_POINTER_I(index);
-    edict_t *enemy = NULL;
+    edict_t *enemy = nullptr;
     enemy = pPlayer->pEdict->v.dmg_inflictor;
     int weapon = 0;
     if(!FNullEnt(enemy)) {
@@ -638,7 +638,7 @@ NATIVE(get_user_attacker) {
         }
       }
     }
-    else enemy = NULL;
+    else enemy = nullptr;
 
     if(enemy) {
       switch(*params/sizeof(cell)) {
@@ -906,7 +906,7 @@ NATIVE(register_concmd) {
     access = 0;
     listable = false;
   }
-  if((cmd = g_commands.registerCommand(plugin, idx, temp, info, access, listable)) == NULL) return 0;
+  if((cmd = g_commands.registerCommand(plugin, idx, temp, info, access, listable)) == nullptr) return 0;
 
   cmd->setCmdType(CMD_ConsoleCommand);
 
@@ -939,7 +939,7 @@ NATIVE(register_clcmd) {
     access = 0;
     listable = false;
   }
-  if((cmd = g_commands.registerCommand(plugin, idx, temp, info, access, listable)) == NULL) return 0;
+  if((cmd = g_commands.registerCommand(plugin, idx, temp, info, access, listable)) == nullptr) return 0;
 
   cmd->setCmdType(CMD_ClientCommand);
 
@@ -971,7 +971,7 @@ NATIVE(register_srvcmd) {
     access = 0;
     listable = false;
   }
-  if((cmd = g_commands.registerCommand(plugin, idx, temp, info, access, listable)) == NULL) return 0;
+  if((cmd = g_commands.registerCommand(plugin, idx, temp, info, access, listable)) == nullptr) return 0;
 
   cmd->setCmdType(CMD_ServerCommand);
 
@@ -1006,7 +1006,7 @@ NATIVE(get_concmd) {
 
   CmdMngr::Command* cmd = g_commands.getCmd(params[1], who, params[7]);
 
-  if(cmd == 0) return 0;
+  if(cmd == nullptr) return 0;
 
   set_amxstring(amx, params[2], cmd->getCmdLine(), params[3]);
   set_amxstring(amx, params[5], cmd->getCmdInfo(), params[6]);
@@ -1023,7 +1023,7 @@ NATIVE(get_clcmd) {
 
   g_translator.setDest(forwho);
   CmdMngr::Command* cmd = g_commands.getCmd(params[1], CMD_ClientCommand, params[7]);
-  if(cmd == 0) return 0;
+  if(cmd == nullptr) return 0;
 
   set_amxstring(amx, params[2], cmd->getCmdLine(), params[3]);
   set_amxstring(amx, params[5], cmd->getCmdInfo(), params[6]);
@@ -1040,7 +1040,7 @@ NATIVE(get_srvcmd) {
 
   g_translator.setDest(forwho);
   CmdMngr::Command* cmd = g_commands.getCmd(params[1], CMD_ServerCommand, params[7]);
-  if(cmd == 0) return 0;
+  if(cmd == nullptr) return 0;
 
   set_amxstring(amx,params[2], cmd->getCmdLine() ,params[3]);
   set_amxstring(amx,params[5], cmd->getCmdInfo() ,params[6]);
@@ -1201,7 +1201,7 @@ NATIVE(register_event) {
   CPluginMngr::CPlugin* plugin = g_plugins.findPluginFast(amx);
   EventsMngr::ClEvent* a = g_events.registerEvent(plugin, iFunction, flags, pos);
 
-  if(a == 0) return 0;
+  if(a == nullptr) return 0;
 
   for(int i = 4; i <= numparam; ++i) {
     a->registerFilter(get_amxstring(amx, params[i], 0, len));
@@ -1247,7 +1247,7 @@ NATIVE(user_slap) {
         }
         else {
           Vector v_forward, v_right;
-          ANGLEVECTORS( pEdict->v.angles, v_forward, v_right, NULL );
+          ANGLEVECTORS( pEdict->v.angles, v_forward, v_right, nullptr);
           pEdict->v.velocity = pEdict->v.velocity + v_forward * 220 + Vector(0, 0, 200);
         }
         pEdict->v.punchangle.x = RANDOM_LONG(-10, 10);
@@ -1478,9 +1478,9 @@ NATIVE(get_timeleft) {
 NATIVE(get_time) {
   int ilen;
   char* sptemp = get_amxstring(amx, params[1], 0, ilen);
-  time_t td = time(NULL);
+  time_t td = time(nullptr);
   tm* lt = localtime(&td);
-  if(lt == 0) {
+  if(lt == nullptr) {
     return 0;
   }
   char szDate[512];
@@ -1493,9 +1493,9 @@ NATIVE(format_time) {
   int ilen;
   char* sptemp = get_amxstring(amx, params[3], 0, ilen);
   time_t tim = params[4];
-  time_t td = (tim != -1) ? tim : time(NULL);
+  time_t td = (tim != -1) ? tim : time(nullptr);
   tm* lt = localtime(&td);
-  if(lt == 0) {
+  if(lt == nullptr) {
     return 0;
   }
   char szDate[512];
@@ -1511,9 +1511,9 @@ NATIVE(parse_time) {
   tm* mytime;
   time_t td;
   if(params[3] == -1) {
-    td = time(NULL);
+    td = time(nullptr);
     mytime = localtime(&td);
-    if(mytime == 0) {
+    if(mytime == nullptr) {
       return 0;
     }
     strptime(sTime, sFormat, mytime, 0);
@@ -1521,7 +1521,7 @@ NATIVE(parse_time) {
   else {
     td = params[3];
     mytime = localtime(&td);
-    if(mytime == 0){
+    if(mytime == nullptr){
       return 0;
     }
     strptime(sTime, sFormat, mytime, 1);
@@ -1531,7 +1531,7 @@ NATIVE(parse_time) {
 
 /* 3 param */
 NATIVE(get_systime) {
-  time_t td = time(NULL);
+  time_t td = time(nullptr);
   td += params[1];
   return td;
 }
@@ -1619,9 +1619,9 @@ NATIVE(get_players) {
       }*/
       if(flags & 32) {
         if(flags & 64) {
-          if(stristr(pPlayer->name.str(), sptemp) == NULL) continue;
+          if(stristr(pPlayer->name.str(), sptemp) == nullptr) continue;
         }
-        else if(strstr(pPlayer->name.str(), sptemp) == NULL) continue;
+        else if(strstr(pPlayer->name.str(), sptemp) == nullptr) continue;
       }
       aPlayers[iNum++] = i;
     }
@@ -1660,9 +1660,9 @@ NATIVE(find_player) {
       }
       if(flags & 2) {
         if(flags & 2048) {
-          if(stristr(pPlayer->name.str(), sptemp) == NULL) continue;
+          if(stristr(pPlayer->name.str(), sptemp) == nullptr) continue;
         }
-        else if(strstr(pPlayer->name.str(), sptemp) == NULL) continue;
+        else if(strstr(pPlayer->name.str(), sptemp) == nullptr) continue;
       }
       if(flags & 4) {
         const char* authid = GETPLAYERAUTHID(pPlayer->pEdict);
@@ -1771,12 +1771,12 @@ NATIVE(read_args) {
 NATIVE(get_user_msgid) {
   int ilen;
   char* sptemp = get_amxstring(amx, params[1], 0, ilen);
-  return GET_USER_MSG_ID(PLID, sptemp, NULL);
+  return GET_USER_MSG_ID(PLID, sptemp, nullptr);
 }
 
 /* 3 params */
 NATIVE(get_user_msgname) {
-  const char* msgname = GET_USER_MSG_NAME(PLID, params[1], NULL);
+  const char* msgname = GET_USER_MSG_NAME(PLID, params[1], nullptr);
   if(msgname) return set_amxstring(amx, params[2], msgname, params[3]);
 
   return 0;
@@ -1806,18 +1806,18 @@ NATIVE(set_task) {
 
 /* 1 param */
 NATIVE(remove_task) {
-  return g_tasksMngr.removeTasks(params[1], params[2] ? 0 : amx);
+  return g_tasksMngr.removeTasks(params[1], params[2] ? nullptr : amx);
 }
 
 /* 3 param */
 NATIVE(change_tasktime) {
   float new_time = CellToFloat(params[2]);
-  return g_tasksMngr.changeTasks(params[1], params[3] ? 0 : amx, new_time);
+  return g_tasksMngr.changeTasks(params[1], params[3] ? nullptr : amx, new_time);
 }
 
 /* 1 param */
 NATIVE(task_exists) {
-  return g_tasksMngr.taskExists(params[1], params[2] ? 0 : amx);
+  return g_tasksMngr.taskExists(params[1], params[2] ? nullptr : amx);
 }
 
 /* 1 param */
@@ -1834,11 +1834,11 @@ NATIVE(register_cvar) {
   if(!g_cvars.find(temp)) {
     CPluginMngr::CPlugin *plugin = g_plugins.findPluginFast(amx);
     CCVar* cvar = new CCVar(temp, plugin->getName(), params[3], CellToFloat(params[4]));
-    if(cvar == 0) return 0;
+    if(cvar == nullptr) return 0;
 
     g_cvars.put(cvar);
 
-    if(CVAR_GET_POINTER(temp) == 0) {
+    if(CVAR_GET_POINTER(temp) == nullptr) {
       static cvar_t cvar_reg_helper;
       cvar_reg_helper = *(cvar->getCvar());
       CVAR_REGISTER(&cvar_reg_helper);
@@ -1885,10 +1885,10 @@ NATIVE(engclient_cmd) {
   int ilen;
   const char* szCmd = get_amxstring(amx, params[2], 0, ilen);
   const char* sArg1 = get_amxstring(amx, params[3], 1, ilen);
-  if(ilen == 0) sArg1 = 0;
+  if(ilen == 0) sArg1 = nullptr;
 
   const char* sArg2 = get_amxstring(amx, params[4], 2, ilen);
-  if(ilen == 0) sArg2 = 0;
+  if(ilen == 0) sArg2 = nullptr;
 
   if(params[1] == 0) {
     for(int i = 1; i <= gpGlobals->maxClients; ++i) {
@@ -1912,7 +1912,7 @@ NATIVE(pause) {
   char* temp = get_amxstring(amx, params[1], 0, ilen);
   int flags = UTIL_ReadFlags(temp);
 
-  CPluginMngr::CPlugin *plugin = 0;
+  CPluginMngr::CPlugin *plugin = nullptr;
 
   if(flags & 2) { // pause function
     if(flags & 4) { // look outside the plugin
@@ -1951,7 +1951,7 @@ NATIVE(unpause) {
   int ilen;
   char* sptemp = get_amxstring(amx, params[1], 0, ilen);
   int flags = UTIL_ReadFlags(sptemp);
-  CPluginMngr::CPlugin *plugin = 0;
+  CPluginMngr::CPlugin *plugin = nullptr;
   if(flags & 2) {
     if(flags & 4) {
       sptemp = get_amxstring(amx, params[3], 0, ilen);
@@ -2049,7 +2049,7 @@ NATIVE(remove_user_flags) {
 NATIVE(register_menuid) {
   int i;
   char* temp = get_amxstring(amx, params[1], 0, i);
-  AMX* a = (*params/sizeof(cell) < 2 || params[2]) ? 0 : amx;
+  AMX* a = (*params/sizeof(cell) < 2 || params[2]) ? nullptr : amx;
   return g_menucmds.registerMenuId(temp, a);
 }
 
@@ -2145,7 +2145,7 @@ NATIVE(get_user_aiming) {
     edict_t* edict = pPlayer->pEdict;
     Vector v_forward;
     Vector v_src = edict->v.origin + edict->v.view_ofs;
-    ANGLEVECTORS(edict->v.v_angle, v_forward, NULL, NULL);
+    ANGLEVECTORS(edict->v.v_angle, v_forward, nullptr, nullptr);
     TraceResult trEnd;
     Vector v_dest = v_src + v_forward * params[4];
     TRACE_LINE(v_src, v_dest, 0, edict, &trEnd);
@@ -2318,14 +2318,14 @@ NATIVE(register_logevent) {
 
   LogEventsMngr::CLogEvent* r = g_logevents.registerLogEvent(plugin, iFunc, params[2]);
 
-  if(r == 0) return 0;
+  if(r == nullptr) return 0;
 
   int numparam = *params/sizeof(cell);
   for(int i = 3; i <= numparam; ++i) {
     r->registerFilter(get_amxstring(amx, params[i], 0, a));
   }
   
-  if(g_pengfuncsTable_Post->pfnAlertMessage == NULL) {
+  if(g_pengfuncsTable_Post->pfnAlertMessage == nullptr) {
     g_pengfuncsTable_Post->pfnAlertMessage = AlertMessage_Post;
   }
   
@@ -2855,5 +2855,5 @@ AMX_NATIVE_INFO amxmod_Natives[] = {
   { "print_to_admins",        print_to_admins },
   { "change_cmdaccess",       change_cmdaccess },
 	{ "log_amx",                log_amx },
-  { NULL,                     NULL }
+  {nullptr, nullptr}
 };

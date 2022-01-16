@@ -49,7 +49,7 @@
   #include <stdlib.h>
   #include <sys/mman.h>
 #endif
-#include <time.h>
+#include <ctime>
 #include "amxmod.h"
 #include "osdep.h"      // sleep, etc
 #include "CFile.h"
@@ -59,7 +59,7 @@
 CList<CModule> g_modules;
 CList<CScript,AMX*> g_loadedscripts;
 
-CModule *g_calledModule = NULL;
+CModule *g_calledModule = nullptr;
 
 #ifdef  __cplusplus
   extern "C" {
@@ -198,11 +198,11 @@ void amx_log(char *szfile, char *message) {
   else filename = build_pathname("%s/%s", g_log_dir.str(), szfile);
 
   bool first_time = true;
-  if((fp = fopen(filename, "r")) != NULL) {
+  if((fp = fopen(filename, "r")) != nullptr) {
     first_time = false;
     fclose(fp);
   }
-  if((fp = fopen(filename, "a")) != NULL) {
+  if((fp = fopen(filename, "a")) != nullptr) {
     char date[32];
     time_t td; time(&td);
     strftime(date, 31, "%m/%d/%Y - %H:%M:%S", localtime(&td));
@@ -252,7 +252,7 @@ void* alloc_amxmemory(void** p, int size) {
 
 void free_amxmemory(void** ptr) {
   delete[] (unsigned char *)(*ptr);
-  *ptr = 0;
+  *ptr = nullptr;
 }
 
 int load_amxscript(AMX *amx, void **program, const char *filename, char error[128], int wantjit) {
@@ -261,7 +261,7 @@ int load_amxscript(AMX *amx, void **program, const char *filename, char error[12
   FILE *fp;
 
   memset(amx, 0, sizeof(*amx));
-  *program = 0;
+  *program = nullptr;
   *error = 0;
 
 #if defined JITORNOT
@@ -277,7 +277,7 @@ int load_amxscript(AMX *amx, void **program, const char *filename, char error[12
   }
 #endif
 
-  if((fp = fopen(filename, "rb")) == NULL) {
+  if((fp = fopen(filename, "rb")) == nullptr) {
     strcpy(error, "Plugin file open error");
     return (amx->error = AMX_ERR_NOTFOUND);
   }
@@ -293,7 +293,7 @@ int load_amxscript(AMX *amx, void **program, const char *filename, char error[12
   amx_Align32((uint32_t *)&hdr.stp);
   amx_Align32((uint32_t *)&hdr.size);
 
-  if((*program  = new unsigned char[(int)hdr.stp]) == 0) {
+  if((*program  = new unsigned char[(int)hdr.stp]) == nullptr) {
   //if ( (*program = malloc( (int)hdr.stp )) == 0 )
     strcpy(error, "Failed to allocate memory");
     return (amx->error = AMX_ERR_MEMORY);
@@ -389,7 +389,7 @@ int load_amxscript(AMX *amx, void **program, const char *filename, char error[12
 #endif // JITORNOT
 
   CScript* aa = new CScript(amx, *program, filename);
-  if(aa == 0) {
+  if(aa == nullptr) {
     strcpy(error, "Failed to allocate memory");
     return (amx->error = AMX_ERR_MEMORY);
   }
@@ -494,7 +494,7 @@ int set_amxnatives(AMX* amx, char error[128]) {
         }
       }
       ++loopNum;
-      iError = amx_Register(amx,NULL,0);
+      iError = amx_Register(amx, nullptr,0);
     }
     //FORWARDS
     int iFunc;
@@ -564,7 +564,7 @@ int unload_amxscript(AMX* amx, void** program) {
 
   delete[] (unsigned char *)(*program);
   //free( *program );
-  *program = 0;
+  *program = nullptr;
   return AMX_ERR_NONE;
 }
 
@@ -578,7 +578,7 @@ AMX* get_amxscript(int id, void** code, const char** filename) {
     *code = (*a).getCode();
     return (*a).getAMX();
   }
-  return 0;
+  return nullptr;
 }
 
 const char* get_amxscriptname(AMX* amx) {
@@ -691,7 +691,7 @@ int add_amxnatives(AMX_NATIVE_INFO* natives) {
   }
 
   AMX_NATIVE_INFO** aa = new AMX_NATIVE_INFO*(natives);
-  if(aa == 0) return AMX_ERR_NATIVE;
+  if(aa == nullptr) return AMX_ERR_NATIVE;
 
   g_calledModule->natives.put(aa);
   return AMX_ERR_NONE;
@@ -746,7 +746,7 @@ int loadModule(const char* moduleName, PLUG_LOADTIME now, bool addExt) {
 
   CModule* cc = new CModule(pathname);
 
-  if(cc == 0) return 0;
+  if(cc == nullptr) return 0;
 
   cc->queryModule();
 
@@ -1080,7 +1080,7 @@ int MODFUNC_IsPlayerAlive(int id) {
 // By AMXMODX Dev Team
 const char * MODFUNC_GetPlayerName(int id) {
   if(id < 1 || id > gpGlobals->maxClients)
-    return NULL;
+    return nullptr;
 
   return GET_PLAYER_POINTER_I(id)->name.str();
 }
@@ -1088,7 +1088,7 @@ const char * MODFUNC_GetPlayerName(int id) {
 // By AMXMODX Dev Team
 const char * MODFUNC_GetPlayerIP(int id) {
   if(id < 1 || id > gpGlobals->maxClients)
-    return NULL;
+    return nullptr;
 
   return GET_PLAYER_POINTER_I(id)->ip.str();
 }
@@ -1120,7 +1120,7 @@ int MODFUNC_GetPlayerCurweapon(int id) {
 // By AMXMODX Dev Team
 const char *MODFUNC_GetPlayerTeam(int id) {
   if(id < 1 || id > gpGlobals->maxClients)
-    return NULL;
+    return nullptr;
 
   return GET_PLAYER_POINTER_I(id)->team.str();
 }
@@ -1192,7 +1192,7 @@ int MODFUNC_GetPlayerFlags(int id) {
 // By AMXMODX Dev Team
 edict_t* MODFUNC_GetPlayerEdict(int id) {
   if(id < 1 || id > gpGlobals->maxClients)
-    return NULL;
+    return nullptr;
 
   return GET_PLAYER_POINTER_I(id)->pEdict;
 }
@@ -1209,7 +1209,7 @@ int MODFUNC_SetPlayerTeamInfo(int player, int teamid, const char *teamname) {
   }
 
   pPlayer->teamId = teamid;
-  if(teamname != NULL) {
+  if(teamname != nullptr) {
     pPlayer->team.set(teamname);
   }
 
@@ -1219,7 +1219,7 @@ int MODFUNC_SetPlayerTeamInfo(int player, int teamid, const char *teamname) {
 // By AMXMODX Dev Team
 void *MODFUNC_PlayerPropAddr(int id, int prop) {
   if(id < 1 || id > gpGlobals->maxClients)
-    return NULL;
+    return nullptr;
 
   CPlayer *pPlayer = GET_PLAYER_POINTER_I(id);
 
@@ -1257,10 +1257,10 @@ void *MODFUNC_PlayerPropAddr(int id, int prop) {
     case Player_Flags:
       return &pPlayer->flags[0];
     default:
-      return NULL;
+      return nullptr;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 void * operator new(size_t size) {

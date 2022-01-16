@@ -94,7 +94,7 @@ NATIVE(read_file) {
   int iLen;
   char* szFile = get_amxstring(amx, params[1], 0, iLen);
   FILE* fp;
-  if((fp = fopen(build_pathname("%s", szFile), "r")) == NULL) {
+  if((fp = fopen(build_pathname("%s", szFile), "r")) == nullptr) {
     amx_logerror(amx, AMX_ERR_NATIVE, "Couldn't read file \"%s\"", szFile);
     return 0;
   }
@@ -149,7 +149,7 @@ NATIVE(write_file) {
 
   // apending to the end
   if(iLine < 0) {
-    if((pFile = fopen(sFile, "a")) == NULL) {
+    if((pFile = fopen(sFile, "a")) == nullptr) {
       amx_logerror(amx, AMX_ERR_NATIVE, "Couldn't write file \"%s\"", sFile);
       return 0;
     }
@@ -160,8 +160,8 @@ NATIVE(write_file) {
   }
 
   // creating a new file with a line in a middle
-  if((pFile = fopen(sFile, "r")) == NULL) {
-    if((pFile = fopen(sFile, "w")) == NULL) {
+  if((pFile = fopen(sFile, "r")) == nullptr) {
+    if((pFile = fopen(sFile, "w")) == nullptr) {
       amx_logerror(amx, AMX_ERR_NATIVE, "Couldn't write file \"%s\"", sFile);
       return 0;
     }
@@ -178,8 +178,8 @@ NATIVE(write_file) {
   FILE* pTemp;
   
   bool bAmxTempFile = false;
-  if((pTemp = tmpfile()) == NULL) {
-    if((pTemp = fopen(build_pathname("amx_tempfile.txt"), "w+")) == NULL) {
+  if((pTemp = tmpfile()) == nullptr) {
+    if((pTemp = fopen(build_pathname("amx_tempfile.txt"), "w+")) == nullptr) {
       fclose(pFile);
       amx_logerror(amx, AMX_ERR_NATIVE, "Couldn't create temp file");
       return 0;
@@ -213,7 +213,7 @@ NATIVE(write_file) {
   if(bAmxTempFile == true) {
     sFile = build_pathname("%s", get_amxstring(amx, params[1], 0, i));
   }
-  if((pFile = fopen(sFile, "w")) == NULL) {
+  if((pFile = fopen(sFile, "w")) == nullptr) {
     fclose(pTemp);
     amx_logerror(amx, AMX_ERR_NATIVE, "Couldn't write file \"%s\"", sFile);
     if(bAmxTempFile == true) {
@@ -248,7 +248,7 @@ NATIVE(file_exists) {
   int iLen;
   char* sFile = get_amxstring(amx, params[1], 0, iLen);
   FILE* fp = fopen(build_pathname("%s", sFile), "r");
-  if(fp != NULL) {
+  if(fp != nullptr) {
     fclose(fp);
     return 1;
   }
@@ -306,7 +306,7 @@ NATIVE(file_size) {
   int iLen;
   char* sFile = get_amxstring(amx, params[1], 0, iLen);
   FILE* fp = fopen(build_pathname("%s", sFile), "r");
-  if(fp != NULL) {
+  if(fp != nullptr) {
     if(params[0] < 2 || params[2] == 0) {
       fseek(fp, 0, SEEK_END);
       int size = ftell(fp);
@@ -352,5 +352,5 @@ AMX_NATIVE_INFO file_Natives[] = {
   { "read_file",      read_file },
   { "write_file",     write_file },
   //{ "rename_file",	 	amx_rename},
-  { NULL, NULL }
+  {nullptr, nullptr}
 };

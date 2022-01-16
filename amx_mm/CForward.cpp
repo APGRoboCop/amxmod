@@ -55,7 +55,7 @@ void CForwardMngr::findForwards() {
   register int j;
   int iFunc;
 
-  CPluginMngr::CPlugin* p = 0;
+  CPluginMngr::CPlugin* p = nullptr;
   CPluginMngr::iterator a = g_plugins.begin();
   while(a) {
     if(stricmp((*a).getStatus(), "bad load")) {

@@ -196,5 +196,5 @@ AMX_NATIVE_INFO vector_Natives[] = {
 	{"angle_to_vector",	angle_to_vector},
 	{"vector_length",		vector_length},
 	{"vector_distance",	vector_distance},
-  { NULL, NULL }
+  {nullptr, nullptr}
 };

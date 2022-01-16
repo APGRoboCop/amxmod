@@ -68,7 +68,7 @@ public:
     CPluginMngr::CPlugin* plugin;
 		int function;
 		CForward* next;
-		CForward(CPluginMngr::CPlugin* p, int func) : plugin(p), function(func) {next = 0;}
+		CForward(CPluginMngr::CPlugin* p, int func) : plugin(p), function(func) {next = nullptr;}
 
 	public:
 		inline CPluginMngr::CPlugin* getPlugin() { return plugin; }
@@ -102,7 +102,7 @@ public:
 		CForward& operator*() { return *a; }
 	};
 	inline iterator begin(int type) const { return iterator(head[(int)type]); }
-	inline iterator end() const { return iterator(0); }
+	inline iterator end() const { return iterator(nullptr); }
 	inline bool forwardsExist(int type) { return head[(int)type] ? true : false; }
 };
 #endif

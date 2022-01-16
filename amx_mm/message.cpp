@@ -46,7 +46,7 @@
 #include <meta_api.h>
 #include "amxmod.h"
 
-enginefuncs_t *g_pEngTable = NULL;
+enginefuncs_t *g_pEngTable = nullptr;
 
 /* 2 param */
 NATIVE(register_message) {
@@ -68,7 +68,7 @@ NATIVE(register_message) {
   CPluginMngr::CPlugin* plugin = g_plugins.findPluginFast(amx);
   EventsMngr::ClMsgHook* a = g_events.registerMessageHook(plugin, iFunction, msg);
 
-  if(a == 0) return -1;
+  if(a == nullptr) return -1;
   
   return iFunction;
 }
@@ -258,7 +258,7 @@ NATIVE(message_begin) {
         amx_logerror(amx, AMX_ERR_NATIVE, "Invalid number of parameters");
         return 0;
       }
-      MESSAGE_BEGIN(params[1], params[2], NULL, INDEXENT(params[4]));
+      MESSAGE_BEGIN(params[1], params[2], nullptr, INDEXENT(params[4]));
       break;
   }
   return 1;
@@ -326,7 +326,7 @@ NATIVE(emessage_begin) {
 
   switch(params[1]) {
     case MSG_BROADCAST: case MSG_ALL: case MSG_SPEC: case MSG_INIT:
-      g_pEngTable->pfnMessageBegin(params[1], params[2], NULL, NULL); // By AMXMODX Dev Team
+      g_pEngTable->pfnMessageBegin(params[1], params[2], nullptr, nullptr); // By AMXMODX Dev Team
       break;
     case MSG_PVS: case MSG_PAS: case MSG_PVS_R: case MSG_PAS_R:
       if(numparam < 3) {
@@ -337,14 +337,14 @@ NATIVE(emessage_begin) {
       vecOrigin.x = *cpOrigin;
       vecOrigin.y = *(cpOrigin + 1);
       vecOrigin.z = *(cpOrigin + 2);
-      g_pEngTable->pfnMessageBegin(params[1], params[2], vecOrigin, NULL); // By AMXMODX Dev Team
+      g_pEngTable->pfnMessageBegin(params[1], params[2], vecOrigin, nullptr); // By AMXMODX Dev Team
       break;
     case MSG_ONE: case MSG_ONE_UNRELIABLE:
       if(numparam < 4) {
         amx_logerror(amx, AMX_ERR_NATIVE, "Invalid number of parameters");
         return 0;
       }
-      g_pEngTable->pfnMessageBegin(params[1], params[2], NULL, INDEXENT(params[4])); // By AMXMODX Dev Team
+      g_pEngTable->pfnMessageBegin(params[1], params[2], nullptr, INDEXENT(params[4])); // By AMXMODX Dev Team
       break;
   }
   return 1;
@@ -467,5 +467,5 @@ AMX_NATIVE_INFO message_Natives[] = {
   { "ewrite_string",          ewrite_string },
   { "set_msg_block",          set_msg_block },
   { "get_msg_block",          get_msg_block },
-  { NULL,                     NULL }
+  {nullptr, nullptr}
 };

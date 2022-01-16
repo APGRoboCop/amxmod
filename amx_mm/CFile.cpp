@@ -32,7 +32,7 @@
  */
 
 #include "CFile.h"
-#include <ctype.h>
+#include <cctype>
 
 // *****************************************************
 // class File

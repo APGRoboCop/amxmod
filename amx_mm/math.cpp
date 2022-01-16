@@ -5,9 +5,9 @@
  *  This file may be freely used. No warranties of any kind.
  */
 
-#include <math.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include <extdll.h>
 #include <meta_api.h>
 #include "amxmod.h"
@@ -215,5 +215,5 @@ AMX_NATIVE_INFO math_Natives[] = {
   { "fsqroot", _fsqroot },
   { "fpower",  _fpower },
   { "flog",    _flog },
-  { NULL, NULL }
+  {nullptr, nullptr}
 };

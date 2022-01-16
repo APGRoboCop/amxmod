@@ -41,9 +41,9 @@
 // *****************************************************
 CmdMngr::CmdMngr() { 
 	memset(sortedlists, 0, sizeof(sortedlists));
-	srvcmdlist = 0;
-	clcmdlist = 0;
-	prefixHead = 0;
+	srvcmdlist = nullptr;
+	clcmdlist = nullptr;
+	prefixHead = nullptr;
 	buf_type = -1;
 	buf_access = 0;
 	buf_id = -1;
@@ -77,7 +77,7 @@ CmdMngr::Command::~Command() {
 
 CmdMngr::Command* CmdMngr::registerCommand(CPluginMngr::CPlugin* plugin, int func, char* cmd, char* info, int level, bool listable) {
 	Command* b = new Command(plugin, cmd, info, level, func, listable, this);
-	if(b == 0) return 0;
+	if(b == nullptr) return nullptr;
 
 	setCmdLink(&sortedlists[0], b);
 	return b;
@@ -89,7 +89,7 @@ CmdMngr::Command* CmdMngr::getCmd(long int id, int type, int access) {
 		for(CmdMngr::iterator a = begin(type); a; ++a) {
 			if((*a).id == id) return &(*a);
 		}
-		return 0;
+		return nullptr;
 	}
 
 	if((id < buf_cmdid) || (access != buf_cmdaccess) || (type != buf_cmdtype)) {
@@ -113,7 +113,7 @@ CmdMngr::Command* CmdMngr::getCmd(long int id, int type, int access) {
 		}
 		++buf_cmdptr;
 	}
-	return 0;		
+	return nullptr;		
 }
 
 int CmdMngr::getCmdNum(int type, int access) {
@@ -138,7 +138,7 @@ int CmdMngr::getCmdNum(int type, int access) {
 void CmdMngr::setCmdLink(CmdLink** a, Command* c, bool sorted) {
 	CmdLink* np = new CmdLink(c);
 
-	if(np == 0) return;
+	if(np == nullptr) return;
 
 	if(sorted) {
 		while(*a) {

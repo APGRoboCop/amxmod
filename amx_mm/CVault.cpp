@@ -33,9 +33,9 @@
 
 #include "CVault.h"
 #include "CFile.h"
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
 
 // *****************************************************
 // class Vault
@@ -45,7 +45,7 @@ bool Vault::exists(const char* k) {
     return false;
   }
 
-	return *find(k) != 0;
+	return *find(k) != nullptr;
 }
 
 void Vault::put(const char* k, const char* v) {
@@ -68,7 +68,7 @@ void Vault::put(const char* k, const char* v) {
 	}
 }
 
-Vault::Obj::Obj(const char* k, const char* v): key(k), value(v), next(0) {
+Vault::Obj::Obj(const char* k, const char* v): key(k), value(v), next(nullptr) {
 	number = atoi(v);
 }
 
@@ -90,7 +90,7 @@ int Vault::get_number(const char* n) {
   }
 	Obj* b = *find(n);
 
-	if(b == 0) {
+	if(b == nullptr) {
     return 0;
   }
 	return b->number;
@@ -102,7 +102,7 @@ const char* Vault::get(const char* n) {
   }
 
 	Obj* b = *find(n);
-	if(b == 0) {
+	if(b == nullptr) {
     return "";
   }
 	return b->value.str();
@@ -119,7 +119,7 @@ void Vault::clear() {
 void Vault::remove(const char* n) {
 	Obj** b = find(n);
 
-	if(*b == 0) {
+	if(*b == nullptr) {
     return;
   }
 

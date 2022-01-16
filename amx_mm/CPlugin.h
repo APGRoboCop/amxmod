@@ -120,7 +120,7 @@ private:
 	int pCounter;
 
 public:
-	CPluginMngr() { head = 0; pCounter = 0; }
+	CPluginMngr() { head = nullptr; pCounter = 0; }
 	~CPluginMngr() { clear(); }
 
 	// Interface
@@ -153,6 +153,6 @@ public:
 		CPlugin& operator*() { return *a; }
 	};
 	inline iterator begin() const { return iterator(head); }
-	inline iterator end() const { return iterator(0); }
+	inline iterator end() const { return iterator(nullptr); }
 };
 #endif

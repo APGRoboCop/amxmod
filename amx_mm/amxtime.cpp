@@ -4,8 +4,8 @@
  *  This file may be freely used. No warranties of any kind.
  *
  */
-#include <time.h>
-#include <assert.h>
+#include <ctime>
+#include <cassert>
 #if defined __WIN32__ || defined _WIN32 || defined WIN32
   #include <windows.h>
   #include <mmsystem.h>
@@ -105,5 +105,5 @@ AMX_NATIVE_INFO time_Natives[] = {
   { "time",      _time },
   { "date",      _date },
   { "tickcount", _tickcount },
-  { NULL, NULL }        /* terminator */
+  {nullptr, nullptr}        /* terminator */
 };

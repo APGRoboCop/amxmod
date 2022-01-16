@@ -32,16 +32,16 @@
  */
 
 #include "CString.h"
-#include "string.h"
+#include <cstring>
 #include "CFile.h"
 
 String::String() {
 	len = 0;
-	napis = 0;
+	napis = nullptr;
 }
 
 String::String(const char* n) {
-	napis = 0;
+	napis = nullptr;
 	set(n);
 }
 
@@ -51,7 +51,7 @@ String::~String() {
 
 void String::set(const char* n) {
 	clear();
-	if(n != 0) {
+	if(n != nullptr) {
 		len = strlen(n);
 		napis = new char[len + 1];
 		if(napis) {
@@ -65,6 +65,6 @@ void String::set(const char* n) {
 
 void String::clear() {
 	delete[] napis;
-	napis = 0;
+	napis = nullptr;
 	len = 0;
 }

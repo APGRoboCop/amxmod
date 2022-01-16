@@ -44,7 +44,7 @@ MenuMngr::MenuCommand::MenuCommand(CPluginMngr::CPlugin *a, int mi, int k, int f
 	keys = k;
 	menuid = mi;
 	function = f;
-	next = 0;
+	next = nullptr;
 }
 
 MenuMngr::~MenuMngr() {

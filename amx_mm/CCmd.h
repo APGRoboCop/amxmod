@@ -97,7 +97,7 @@ private:
 	struct CmdLink {
 		Command* cmd;
 		CmdLink* next;
-		CmdLink(Command* c): cmd(c), next(0) {}
+		CmdLink(Command* c): cmd(c), next(nullptr) {}
 	};
 
 	CmdLink* sortedlists[3];
@@ -109,7 +109,7 @@ private:
 		CmdMngr* parent;
 		CmdLink* list;
 		CmdPrefix* next;
-		CmdPrefix(const char* nn, CmdMngr* pp) : name(nn), parent(pp), list(0), next(0) {}
+		CmdPrefix(const char* nn, CmdMngr* pp) : name(nn), parent(pp), list(nullptr), next(nullptr) {}
 		~CmdPrefix() { parent->clearCmdLink(&list); }
 	} *prefixHead;
 
@@ -136,7 +136,7 @@ public:
 		CmdLink *a;
 
 	public:
-		iterator(CmdLink*aa = 0) : a(aa) {}
+		iterator(CmdLink*aa = nullptr) : a(aa) {}
 		iterator& operator++() { a = a->next; return *this; }
 		bool operator == (const iterator& b) const { return a == b.a; }
 		bool operator != (const iterator& b) const { return !operator == (b); }
@@ -145,12 +145,12 @@ public:
 	};
 	inline iterator clcmdprefixbegin(const char* nn) {
 		CmdPrefix* a = *findPrefix(nn);
-		return iterator(a ? a->list : 0);
+		return iterator(a ? a->list : nullptr);
 	}
 	inline iterator clcmdbegin() const { return iterator(clcmdlist); }
 	inline iterator srvcmdbegin() const { return iterator(srvcmdlist); }
 	inline iterator begin(int type) const { return iterator(sortedlists[type]); }
-	inline iterator end() const { return iterator(0); }
+	inline iterator end() const { return iterator(nullptr); }
 
 private:
 	int buf_cmdid;

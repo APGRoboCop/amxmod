@@ -70,7 +70,7 @@ void UTIL_ShowMenu(edict_t* pEdict, int slots, int time, char *menu, int mlen) {
     mlen -= a;
     c = *(n += a);
     *n = 0;
-    MESSAGE_BEGIN(MSG_ONE, gmsgShowMenu, NULL, pEdict);
+    MESSAGE_BEGIN(MSG_ONE, gmsgShowMenu, nullptr, pEdict);
     WRITE_SHORT(slots);
     WRITE_CHAR(time);
     WRITE_BYTE(c ? TRUE : FALSE);
@@ -87,7 +87,7 @@ void UTIL_ShowMOTD(edict_t *client, char *motd, int mlen, const char *name) {
 		return;
 	}
   if(gmsgServerName) {
-    MESSAGE_BEGIN(MSG_ONE, gmsgServerName, NULL, client);
+    MESSAGE_BEGIN(MSG_ONE, gmsgServerName, nullptr, client);
     WRITE_STRING(name);
     MESSAGE_END();
   }
@@ -104,7 +104,7 @@ void UTIL_ShowMOTD(edict_t *client, char *motd, int mlen, const char *name) {
     mlen -= a;
     c = *(n += a);
     *n = 0;
-    MESSAGE_BEGIN(MSG_ONE, gmsgMOTD, NULL, client);
+    MESSAGE_BEGIN(MSG_ONE, gmsgMOTD, nullptr, client);
     WRITE_BYTE(c ? FALSE : TRUE);
     WRITE_STRING(motd);
     MESSAGE_END();
@@ -113,7 +113,7 @@ void UTIL_ShowMOTD(edict_t *client, char *motd, int mlen, const char *name) {
   }
 
   if(gmsgServerName) {
-    MESSAGE_BEGIN(MSG_ONE, gmsgServerName, NULL, client);
+    MESSAGE_BEGIN(MSG_ONE, gmsgServerName, nullptr, client);
     WRITE_STRING(hostname->string);
     MESSAGE_END();
   }
@@ -210,7 +210,7 @@ short FixedSigned16(float value, float scale) {
 void UTIL_HudMessage(edict_t *pEntity, const hudtextparms_t &textparms, char *pMessage) {
   hudtextparms_t sh = textparms;
   if(pEntity) {
-    MESSAGE_BEGIN(MSG_ONE_UNRELIABLE, SVC_TEMPENTITY, NULL, pEntity);
+    MESSAGE_BEGIN(MSG_ONE_UNRELIABLE, SVC_TEMPENTITY, nullptr, pEntity);
   }
   else {
     MESSAGE_BEGIN(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -249,7 +249,7 @@ void UTIL_ClientPrint(edict_t *pEntity, int msg_dest, char *msg) {
   char c = msg[190];
   msg[190] = 0; // truncate without checking with strlen()
   if(pEntity) {
-    MESSAGE_BEGIN(MSG_ONE, gmsgTextMsg, NULL, pEntity);
+    MESSAGE_BEGIN(MSG_ONE, gmsgTextMsg, nullptr, pEntity);
   }
   else {
     MESSAGE_BEGIN(MSG_BROADCAST, gmsgTextMsg);

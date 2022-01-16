@@ -113,10 +113,10 @@ typedef void* DLHANDLE;
 #define SETCLIENTLISTENING  (*g_engfuncs.pfnVoice_SetClientListening)
 #define SETCLIENTMAXSPEED   (*g_engfuncs.pfnSetClientMaxspeed)
 
-char* UTIL_SplitHudMessage(register const char *src);
+char* UTIL_SplitHudMessage(const char *src);
 int UTIL_ReadFlags(const char* c);
 void UTIL_ClientPrint(edict_t *pEntity, int msg_dest, char *msg);
-void UTIL_FakeClientCommand(edict_t *pEdict, const char *cmd, const char *arg1 = NULL, const char *arg2 = NULL);
+void UTIL_FakeClientCommand(edict_t *pEdict, const char *cmd, const char *arg1 = nullptr, const char *arg2 = nullptr);
 void UTIL_GetFlags(char* flags, int flag);
 void UTIL_HudMessage(edict_t *pEntity, const hudtextparms_t &textparms, char *pMessage);
 void UTIL_IntToString(int value, char *output);
@@ -318,8 +318,8 @@ void WriteEntity(int iValue);
 void WriteAngle(float flValue);
 void WriteCoord(float flValue);
 void WriteString(const char *sz);
-void MessageEnd(void);
-void MessageEnd_Post(void);
+void MessageEnd();
+void MessageEnd_Post();
 int PrecacheModel(char *s);
 int PrecacheSound(char *s);
 //const char *Cmd_Args(void);

@@ -41,7 +41,7 @@
 // *****************************************************
 LogEventsMngr::LogEventsMngr() {
   logCurrent = logCounter = 0;
-  logcmplist = 0;
+  logcmplist = nullptr;
   arelogevents = false;
   memset(logevents, 0, sizeof(logevents));
 }
@@ -87,7 +87,7 @@ LogEventsMngr::CLogCmp* LogEventsMngr::registerCondition(char* filter) {
 
 void LogEventsMngr::CLogEvent::registerFilter(char* filter) {
 	CLogCmp *cmp = parent->registerCondition( filter );
-	if(cmp == 0) {
+	if(cmp == nullptr) {
     return;
   }
 	for(LogCond* c = filters; c; c = c->next) {
@@ -96,8 +96,8 @@ void LogEventsMngr::CLogEvent::registerFilter(char* filter) {
 			return;
 		}
 	}
-	LogCondEle* aa = new LogCondEle(cmp, 0);
-	if(aa == 0) {
+	LogCondEle* aa = new LogCondEle(cmp, nullptr);
+	if(aa == nullptr) {
     return;
   }
 	filters = new LogCond(cmp->pos, aa, filters);
@@ -171,7 +171,7 @@ void LogEventsMngr::parseLogString() {
 
 LogEventsMngr::CLogEvent* LogEventsMngr::registerLogEvent(CPluginMngr::CPlugin* plugin, int func, int pos) {
   if(pos < 1 || pos > MAX_LOGARGS) {
-    return 0;
+    return nullptr;
   }
   arelogevents = true;
   CLogEvent** d = &logevents[pos];
@@ -199,7 +199,7 @@ void LogEventsMngr::executeLogEvents() {
       }
 		}
 		if(valid) {
-			if((err = amx_Exec(a->plugin->getAMX(), NULL, a->func, 0)) != AMX_ERR_NONE) {
+			if((err = amx_Exec(a->plugin->getAMX(), nullptr, a->func, 0)) != AMX_ERR_NONE) {
 				amx_logerror(a->plugin->getAMX(), err, "");
 			}
     }
@@ -266,5 +266,5 @@ LogEventsMngr::CLogEvent *LogEventsMngr::getValidLogEvent(CLogEvent * a) {
 		}
 		return a;
 	}
-	return 0;
+	return nullptr;
 }

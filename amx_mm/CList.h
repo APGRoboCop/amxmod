@@ -49,7 +49,7 @@ public:
 		friend class iterator;
 		T* obj;
 		CListEle* next;
-		CListEle(T* a) : obj(a), next(0) {}
+		CListEle(T* a) : obj(a), next(nullptr) {}
 
 	public:
 		T& operator* () { return *obj; }
@@ -60,14 +60,14 @@ private:
 	CListEle *node;
 
 public:
-	CList<T, F>() { head = 0; }
+	CList<T, F>(): node(nullptr) { head = 0; }
 	~CList<T, F>() { clear(); }
 	void clear() {
 		iterator a = begin();
 		while(a) a.remove();
 	}
 	void put(T* a) {
-		if(head == 0) {
+		if(head == nullptr) {
 			head = new CListEle(a);
 		}
 		else {
@@ -83,7 +83,7 @@ public:
 		CListEle** a;
 
 	public:
-		iterator(CListEle** i = 0) : a(i) {}
+		iterator(CListEle** i = nullptr) : a(i) {}
 		T& operator*() const { return *(*a)->obj; }
 		inline operator bool () const { return (a && *a); }
 		inline iterator& operator++() {

@@ -28,11 +28,11 @@
 # endif
 #endif
 
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
-#include <assert.h>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include <climits>
+#include <cassert>
 #include "amx.h"
 #if defined __WIN32__ || defined _WIN32 || defined WIN32 || defined _Windows
   #include <windows.h>
@@ -40,7 +40,7 @@
 
 /* A few compilers do not provide the ANSI C standard "time" functions */
 #if !defined SN_TARGET_PS2 && !defined _WIN32_WCE
-  #include <time.h>
+  #include <ctime>
 #endif
 
 #if defined _UNICODE
@@ -68,16 +68,16 @@ typedef struct _property_list {
   //??? safe AMX (owner of the property)
 } proplist;
 
-static proplist proproot = { NULL };
+static proplist proproot = {nullptr};
 
 static proplist *list_additem(proplist *root) {
   proplist *item;
 
   assert(root!=NULL);
-  if((item=(proplist *)malloc(sizeof(proplist)))==NULL) {
-    return NULL;
+  if((item=(proplist *)malloc(sizeof(proplist)))== nullptr) {
+    return nullptr;
   }
-  item->name=NULL;
+  item->name= nullptr;
   item->id=0;
   item->value=0;
   item->next=root->next;
@@ -98,10 +98,10 @@ static void list_setitem(proplist *item,cell id,char *name,cell value) {
   char *ptr;
 
   assert(item!=NULL);
-  if((ptr=(char *)malloc(strlen(name)+1))==NULL) {
+  if((ptr=(char *)malloc(strlen(name)+1))== nullptr) {
     return;
   }
-  if(item->name!=NULL) {
+  if(item->name!= nullptr) {
     free(item->name);
   }
   strcpy(ptr,name);
@@ -119,19 +119,19 @@ static proplist *list_finditem(proplist *root,cell id,char *name,cell value,
   assert(name!=NULL);
   if(strlen(name)>0) {
     /* find by name */
-    while(item!=NULL && (item->id!=id || stricmp(item->name,name)!=0)) {
+    while(item!= nullptr && (item->id!=id || stricmp(item->name,name)!=0)) {
       prev=item;
       item=item->next;
     } /* while */
   }
   else {
     /* find by value */
-    while(item!=NULL && (item->id!=id || item->value!=value)) {
+    while(item!= nullptr && (item->id!=id || item->value!=value)) {
       prev=item;
       item=item->next;
     } /* while */
   } /* if */
-  if(pred!=NULL) {
+  if(pred!= nullptr) {
     *pred=prev;
   }    
   return item;
@@ -338,9 +338,9 @@ static cell AMX_NATIVE_CALL getproperty(AMX *amx,cell *params) {
 
   amx_GetAddr(amx,params[2],&cstr);
   name=MakePackedString(cstr);
-  item=list_finditem(&proproot,params[1],name,params[3],NULL);
+  item=list_finditem(&proproot,params[1],name,params[3], nullptr);
   /* if list_finditem() found the value, store the name */
-  if(item!=NULL && item->value==params[3] && strlen(name)==0) {
+  if(item!= nullptr && item->value==params[3] && strlen(name)==0) {
     int needed=(strlen(item->name)+sizeof(cell)-1)/sizeof(cell);     /* # of cells needed */
     if(verify_addr(amx,(cell)(params[4]+needed))!=AMX_ERR_NONE) {
       free(name);
@@ -350,7 +350,7 @@ static cell AMX_NATIVE_CALL getproperty(AMX *amx,cell *params) {
     amx_SetString(cstr,item->name,1,0);
   } /* if */
   free(name);
-  return (item!=NULL) ? item->value : 0;
+  return (item!= nullptr) ? item->value : 0;
 }
 
 static cell AMX_NATIVE_CALL setproperty(AMX *amx,cell *params) {
@@ -361,11 +361,11 @@ static cell AMX_NATIVE_CALL setproperty(AMX *amx,cell *params) {
 
   amx_GetAddr(amx,params[2],&cstr);
   name=MakePackedString(cstr);
-  item=list_finditem(&proproot,params[1],name,params[3],NULL);
-  if(item==NULL) {
+  item=list_finditem(&proproot,params[1],name,params[3], nullptr);
+  if(item== nullptr) {
     item=list_additem(&proproot);
   }
-  if(item==NULL) {
+  if(item== nullptr) {
     amx_RaiseError(amx,AMX_ERR_MEMORY);
   }
   else {
@@ -390,7 +390,7 @@ static cell AMX_NATIVE_CALL delproperty(AMX *amx,cell *params) {
   amx_GetAddr(amx,params[2],&cstr);
   name=MakePackedString(cstr);
   item=list_finditem(&proproot,params[1],name,params[3],&pred);
-  if(item!=NULL) {
+  if(item!= nullptr) {
     prev=item->value;
     list_delete(pred,item);
   } /* if */
@@ -405,9 +405,9 @@ static cell AMX_NATIVE_CALL existproperty(AMX *amx,cell *params) {
 
   amx_GetAddr(amx,params[2],&cstr);
   name=MakePackedString(cstr);
-  item=list_finditem(&proproot,params[1],name,params[3],NULL);
+  item=list_finditem(&proproot,params[1],name,params[3], nullptr);
   free(name);
-  return (item!=NULL);
+  return (item!= nullptr);
 }
 #endif
 
@@ -429,7 +429,7 @@ static cell AMX_NATIVE_CALL core_random(AMX *amx,cell *params) {
   /* one-time initialization (or, mostly one-time) */
 #if !defined SN_TARGET_PS2 && !defined _WIN32_WCE
   if(IL_StandardRandom_seed == INITIAL_SEED) {
-    IL_StandardRandom_seed=(unsigned long)time(NULL);
+    IL_StandardRandom_seed=(unsigned long)time(nullptr);
   }
 #endif
 
@@ -467,7 +467,7 @@ AMX_NATIVE_INFO core_Natives[] = {
   { "deleteproperty",delproperty },
   { "existproperty", existproperty },
 #endif
-  { NULL, NULL }        /* terminator */
+  {nullptr, nullptr}        /* terminator */
 };
 
 int AMXEXPORT amx_CoreInit(AMX *amx) {
@@ -478,7 +478,7 @@ int AMXEXPORT amx_CoreCleanup(AMX *amx) {
   (void)amx;
 #if !defined NOPROPLIST
   //??? delete only the properties owned by the AMX
-  while(proproot.next!=NULL) {
+  while(proproot.next!= nullptr) {
     list_delete(&proproot,proproot.next);
   }
 #endif

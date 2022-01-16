@@ -48,8 +48,8 @@
 
 typedef int (_FAR *QUERYMOD)(module_info_s**);
 typedef int (_FAR *ATTACHMOD)(pfnamx_engine_g*, pfnmodule_engine_g*);
-typedef int (_FAR *DETACHMOD)(void);
-typedef void (_FAR *PLUGINSLOAD)(void);
+typedef int (_FAR *DETACHMOD)();
+typedef void (_FAR *PLUGINSLOAD)();
 
 QUERYMOD QueryModule;
 ATTACHMOD AttachModule;
@@ -159,8 +159,8 @@ pfnmodule_engine_g engModuleFunc = {
 
 CModule::CModule(const char* fname) : filename(fname) {
 	metamod = false;
-	info = 0;
-	module = 0;
+	info = nullptr;
+	module = nullptr;
 	status = MODULE_NONE;
 }
 
@@ -168,15 +168,15 @@ CModule::~CModule() {
 	if(module) DLFREE(module);
 
 	metamod = false;
-	info = 0;
-	module = 0;
+	info = nullptr;
+	module = nullptr;
 	status = MODULE_NONE;
 	natives.clear();
 }
 
 bool CModule::attachModuleToMetamod(const char *moduleFile, PLUG_LOADTIME now) {
 	void **handle;
-	void *null_handle = NULL;
+	void *null_handle = nullptr;
 	if(module) handle = (void **)&module;
 	else handle = &null_handle;
 
@@ -194,7 +194,7 @@ bool CModule::attachModule() {
 
   g_calledModule = this; // By AMXMODX Dev Team
 	(*AttachModule)(&engAmxFunc, &engModuleFunc);
-	g_calledModule = NULL; // By AMXMODX Dev Team
+	g_calledModule = nullptr; // By AMXMODX Dev Team
 	status = MODULE_LOADED;
 	return true;
 }
@@ -211,12 +211,12 @@ bool CModule::queryModule() {
 	if(meta) metamod = true;
 
 	QueryModule = (QUERYMOD)DLPROC(module, "AMX_Query");
-	if(QueryModule == 0) {
+	if(QueryModule == nullptr) {
 		status = MODULE_NOQUERY;
 		return false;
 	}
 	(*QueryModule)(&info);
-	if(info == 0) {
+	if(info == nullptr) {
 		status = MODULE_NOINFO;
 		return false;
 	}
@@ -225,7 +225,7 @@ bool CModule::queryModule() {
 		return false;
 	}
 	AttachModule = (ATTACHMOD)DLPROC(module, "AMX_Attach");
-	if(AttachModule == 0) {
+	if(AttachModule == nullptr) {
 		status = MODULE_NOATTACH;
 		return false;
 	}
@@ -242,8 +242,8 @@ bool CModule::detachModule() {
 
 	DLFREE(module);
 	metamod = false;
-	info = 0;
-	module = 0;
+	info = nullptr;
+	module = nullptr;
 	natives.clear();
 	status = MODULE_NONE;
 	return true;

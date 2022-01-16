@@ -82,15 +82,15 @@
  */
 #if !defined _MAX_PATH
   /* not defined, perhaps stdio.h was not included */
-  #include <stdio.h>
-  #if !defined _MAX_PATH
+  #include <cstdio>
+#if !defined _MAX_PATH
     /* still undefined, try a common alternative name */
     #if defined MAX_PATH
       #define _MAX_PATH    MAX_PATH
     #else
       /* no _MAX_PATH and no MAX_PATH, perhaps it is in limits.h */
-      #include <limits.h>
-      #if defined PATH_MAX
+      #include <climits>
+#if defined PATH_MAX
         #define _MAX_PATH  PATH_MAX
       #elif defined _POSIX_PATH_MAX
         #define _MAX_PATH  _POSIX_PATH_MAX

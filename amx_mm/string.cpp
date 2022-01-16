@@ -44,7 +44,7 @@
 
 #include <extdll.h>
 #include <meta_api.h>
-#include <ctype.h>
+#include <cctype>
 #include "amxmod.h"
 #include "format.h"
 
@@ -84,7 +84,7 @@ const char* stristr(const char* str, const char* substr) {
       needle = (char *)substr;
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 static char g_outbuf[4096];
@@ -807,5 +807,5 @@ AMX_NATIVE_INFO string_Natives[] = {
   { "str_to_num", strtonum },
   { "trim",       trim },
 
-  { NULL, NULL }
+  {nullptr, nullptr}
 };

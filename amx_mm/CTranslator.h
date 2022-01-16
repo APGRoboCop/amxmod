@@ -74,7 +74,7 @@ public:
 		friend class CTranslator;
 
 		CDictionary* next;
-		CDictionary(const char *dict) : next(0), tmphead(0), tmpstrings(0), languages(0), lCounter(0), tCounter(0), gCursor(0) {
+		CDictionary(const char *dict) : next(nullptr), tmphead(nullptr), tmpstrings(0), languages(nullptr), lCounter(0), tCounter(0), gCursor(0) {
 			name.set(dict);
 		}
 		bool addFile(const char *file, int pass = 1, bool primary = true);
@@ -90,7 +90,7 @@ public:
 #ifndef LOOKUP_HASH
 			CTempString(const char *str, CTempString *nxt = 0) : next(nxt) { string.set(str); }
 #else
-			CTempString(const char *str, unsigned long hsh, CTempString *nxt = 0) : next(nxt), hash(hsh) {
+			CTempString(const char *str, unsigned long hsh, CTempString *nxt = nullptr) : next(nxt), hash(hsh) {
 				string.set(str);
 			}
 			unsigned long hash;
@@ -156,7 +156,7 @@ private:
 	int dest;
 
 public:
-	CTranslator() : head(0), dCounter(0), serverLang(0) {
+	CTranslator() : head(nullptr), dCounter(0), serverLang(0) {
 		memset(&lang, 0, sizeof(lang));
 		lang[0] = new String("en");
 		/* lang[1] = new String("fr");
@@ -206,7 +206,7 @@ public:
 		CDictionary *a;
 
 	public:
-		iterator(CDictionary*aa = 0) : a(aa) {}
+		iterator(CDictionary*aa = nullptr) : a(aa) {}
 		iterator& operator++() { a = a->next; return *this; }
 		bool operator == (const iterator& b) const { return a == b.a; }
 		bool operator != (const iterator& b) const { return !operator == (b); }
@@ -214,6 +214,6 @@ public:
 		CDictionary& operator*() { return *a; }
 	};
 	inline iterator begin() const { return iterator(head); }
-	inline iterator end() const { return iterator(0); }
+	inline iterator end() const { return iterator(nullptr); }
 };
 #endif

@@ -46,7 +46,7 @@
 #define CMISC_H
 
 #include "CList.h"
-#include "string.h"
+#include <cstring>
 
 #ifndef GETPLAYERAUTHID
 #define GETPLAYERAUTHID   (*g_engfuncs.pfnGetPlayerAuthId)
@@ -169,7 +169,7 @@ class Grenades {
 	} *head;
 
 public:
-	Grenades() { head = 0; }
+	Grenades() { head = nullptr; }
 	~Grenades() { clear(); }
 	void put(edict_t* grenade, float time, int type, CPlayer* player);
 	bool find(edict_t* enemy, CPlayer** p, int& type);
@@ -215,7 +215,7 @@ public:
 	XVars() {
 		num = 0;
 		size = 0;
-		head = 0;
+		head = nullptr;
 	}
 	~XVars() { clear(); }
 	void clear();
@@ -256,7 +256,7 @@ class TeamIds {
 		char tid;
 		static char uid;
 		TeamEle* next;
-		TeamEle(const char* n, int& i) : name(n), id(i), next(0) { tid = uid++; };
+		TeamEle(const char* n, int& i) : name(n), id(i), next(nullptr) { tid = uid++; };
 		~TeamEle() { --uid; }
 	} *head;
 

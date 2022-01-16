@@ -43,10 +43,10 @@ CTaskMngr::CTask::CTask(CPluginMngr::CPlugin* p, int f, int flags,
 	plugin = p;
 	func = f;
 	id = i;
-	next = 0;
-	prev = 0;
+	next = nullptr;
+	prev = nullptr;
 	param_len = 0;
-	param = 0;
+	param = nullptr;
 	base_time = base;
 	exec_time = exec;
 	repeat = (flags & 1) ? r : 0;
@@ -97,7 +97,7 @@ CTaskMngr::CTask* CTaskMngr::getFirstValidTask(CTask* h) {
 		}
 		return a;
 	}
-	return 0;
+	return nullptr;
 }
 
 CTaskMngr::CTask* CTaskMngr::getNextTask(CTask* a) {
@@ -113,11 +113,11 @@ CTaskMngr::CTask* CTaskMngr::getNextTask(CTask* a) {
 }
 
 CTaskMngr::CTaskMngr() {
-	head = 0;
-	tail = 0;
-	m_timer = 0;
-	m_timelimit = 0;
-	m_timeleft = 0;
+	head = nullptr;
+	tail = nullptr;
+	m_timer = nullptr;
+	m_timelimit = nullptr;
+	m_timeleft = nullptr;
 }
 
 CTaskMngr::~CTaskMngr() {
@@ -144,7 +144,7 @@ void CTaskMngr::registerTask(CPluginMngr::CPlugin* plugin, int func,
 
 	CTask* a = new CTask(plugin, func, flags, i, base, exec, parlen, par, repeat);
 
-	if(a == 0) {
+	if(a == nullptr) {
     return;
   }
 	if(tail){
@@ -164,7 +164,7 @@ CTaskMngr::CTask* CTaskMngr::findTask(int id, AMX* amx) {
 			return a;
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 void CTaskMngr::unlink(CTask* a) {

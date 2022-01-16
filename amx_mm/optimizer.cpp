@@ -29,7 +29,7 @@
 *  version.
 */
 
-#include <string.h>
+#include <cstring>
 #include "optimizer.h"
 
 int g_opt_level = 0;

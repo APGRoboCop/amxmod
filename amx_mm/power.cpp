@@ -37,5 +37,5 @@ static cell sqroot(AMX *amx, cell *params) {
 AMX_NATIVE_INFO power_Natives[] = {
   { "power",  power },
   { "sqroot", sqroot },
-  { 0, 0 }        /* terminator */
+  { nullptr, nullptr }        /* terminator */
 };

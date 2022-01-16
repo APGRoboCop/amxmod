@@ -55,7 +55,7 @@ EventsMngr::ClEvent::ClEvent(CPluginMngr::CPlugin* amxplugin, int function, int 
 	plugin = amxplugin;
 	func = function;
 	stamp = 0.0f;
-	next = 0;
+	next = nullptr;
 	done = false;
 	alive = true;
 	dead = true;
@@ -77,7 +77,7 @@ EventsMngr::ClMsgHook::ClMsgHook(CPluginMngr::CPlugin* amxplugin, int function) 
 }
 
 void EventsMngr::ClEvent::registerFilter(char* filter) {
-	if(filter == 0) {
+	if(filter == nullptr) {
     return;
   }
 	char* value = filter;
@@ -90,7 +90,7 @@ void EventsMngr::ClEvent::registerFilter(char* filter) {
   }
 	cond_t* b = new cond_t;
 
-	if(b == 0) {
+	if(b == nullptr) {
     return;
   }
 
@@ -114,11 +114,11 @@ void EventsMngr::ClEvent::registerFilter(char* filter) {
 
 EventsMngr::ClEvent* EventsMngr::registerEvent(CPluginMngr::CPlugin* p, int f, int flags, int pos) {
 	if (pos < 0 || pos >= MAX_AMX_REG_MSG)
-		return NULL;
+		return nullptr;
 
   ClEvent* a = new ClEvent(p, f, flags);
-	if(a == 0) {
-    return 0;
+	if(a == nullptr) {
+    return nullptr;
   }
 	ClEvent** end = &modMsgsFunCall[pos];
 	while(*end) {
@@ -129,11 +129,11 @@ EventsMngr::ClEvent* EventsMngr::registerEvent(CPluginMngr::CPlugin* p, int f, i
 
 EventsMngr::ClMsgHook* EventsMngr::registerMessageHook(CPluginMngr::CPlugin* p, int f, int pos) {
 	if (pos < 1 || pos >= MAX_REG_MSGS)
-		return NULL;
+		return nullptr;
 
   ClMsgHook* a = new ClMsgHook(p, f);
-	if(a == 0) {
-    return 0;
+	if(a == nullptr) {
+    return nullptr;
   }
 	ClMsgHook** end = &modMsgsHookFunCall[pos];
 	while(*end) {
@@ -180,13 +180,13 @@ int EventsMngr::parserInit(int msg_type, float* tim, CPlayer *pPlayer, int index
   inMessageHook = false;
   timer = tim;
   
-  if((parseMsgHookFun = modMsgsHookFunCall[msg_type]) != 0) {
+  if((parseMsgHookFun = modMsgsHookFunCall[msg_type]) != nullptr) {
     inMessageHook = true;
     parseVault[parsePos = 0].type = MSG_ARG_SHORT;
     parseVault[parsePos].iValue = parseVault[parsePos].iNewValue = index;
   }
 
-  if((parseFun = modMsgsFunCall[msg_type]) == 0) {
+  if((parseFun = modMsgsFunCall[msg_type]) == nullptr) {
     return 0;
   }
   for(EventsMngr::ClEvent*p = parseFun; p; p = p->next) {
@@ -302,7 +302,7 @@ void EventsMngr::executeEvents() {
 
 		p->stamp = *timer;
 
-		if((err = amx_Exec(p->plugin->getAMX(), NULL, p->func, 1, parseVault[0].iValue)) != AMX_ERR_NONE) {
+		if((err = amx_Exec(p->plugin->getAMX(), nullptr, p->func, 1, parseVault[0].iValue)) != AMX_ERR_NONE) {
 			amx_logerror(p->plugin->getAMX(), err, "");
 		}
 	}
@@ -338,7 +338,7 @@ void EventsMngr::writeMessage() {
       MESSAGE_BEGIN(currentMsgDest, currentMsgType, currentMsgOrigin);
       break;
     case MSG_ONE: case MSG_ONE_UNRELIABLE:
-      MESSAGE_BEGIN(currentMsgDest, currentMsgType, NULL, INDEXENT(parseVault[0].iNewValue));
+      MESSAGE_BEGIN(currentMsgDest, currentMsgType, nullptr, INDEXENT(parseVault[0].iNewValue));
       break;
   }
 
@@ -568,7 +568,7 @@ EventsMngr::ClEvent* EventsMngr::getValidEvent(ClEvent* a ) {
 		a->stamp = *timer;
 		return a;
 	}
-	return 0;
+	return nullptr;
 }
 
 int EventsMngr::getEventId(const char* msg) {
@@ -591,7 +591,7 @@ int EventsMngr::getEventId(const char* msg) {
 			return table[pos].id;
 		}
 	}
-	return pos = GET_USER_MSG_ID(PLID, msg, 0);
+	return pos = GET_USER_MSG_ID(PLID, msg, nullptr);
 }
 
 int EventsMngr::getCurrentMsgType() {

@@ -97,7 +97,7 @@ bool CPlayer::Connect(const char* connectname, const char* ipaddress) {
 
   const char* authid = GETPLAYERAUTHID(pEdict);
 
-  if((authid == 0) || (*authid == 0) || (strcmp(authid, "STEAM_ID_PENDING") == 0)) {
+  if((authid == nullptr) || (*authid == 0) || (strcmp(authid, "STEAM_ID_PENDING") == 0)) {
     return true;
 	}
   return false;
@@ -108,7 +108,7 @@ bool CPlayer::Connect(const char* connectname, const char* ipaddress) {
 // *****************************************************
 void Grenades::put(edict_t* grenade, float time, int type, CPlayer* player) {
   Obj* a = new Obj;
-  if(a == 0) {
+  if(a == nullptr) {
     return;
   }
   a->player = player;
@@ -154,7 +154,7 @@ void Grenades::clear() {
 // *****************************************************
 void XVars::clear() {
 	delete[] head;
-	head = 0;
+	head = nullptr;
 	num = 0;
 	size = 0;
 }
@@ -192,7 +192,7 @@ int XVars::realloc_array(int nsize) {
 // class TeamIds
 // *****************************************************
 TeamIds::TeamIds() {
-  head = 0;
+  head = nullptr;
   newTeam = 0;
 }
 
@@ -217,7 +217,7 @@ void TeamIds::registerTeam(const char* n, int s) {
     a = &(*a)->next;
   }
   *a = new TeamEle(n, s);
-  if(*a == 0) {
+  if(*a == nullptr) {
     return;
   }
   newTeam |= (1<<(*a)->tid);

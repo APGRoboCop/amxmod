@@ -72,13 +72,13 @@ private:
 	
 public:
 	MenuMngr() {
-		headid = 0;
-		headcmd = 0;
+		headid = nullptr;
+		headcmd = nullptr;
 	}
 	~MenuMngr();
 
 	// Interface
-	int findMenuId(const char* name, AMX* a = 0);
+	int findMenuId(const char* name, AMX* a = nullptr);
 	int registerMenuId(const char* n, AMX* a);
 	void registerMenuCmd(CPluginMngr::CPlugin *a, int mi, int k, int f);
 	void clear();
@@ -98,6 +98,6 @@ public:
 		MenuCommand& operator*() { return *a; }
 	};
 	inline iterator begin() const { return iterator(headcmd); }
-	inline iterator end() const { return iterator(0); }
+	inline iterator end() const { return iterator(nullptr); }
 };
 #endif
